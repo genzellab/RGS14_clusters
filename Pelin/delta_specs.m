@@ -1,10 +1,10 @@
-function [x,y,z,w,h,q,l,p,si_mixed,th,PCA_features]=delta_specs(si,timeasleep,print_hist)
+function [x,y,z,w,h,q,l,p,si_mixed,th,PCA_features]=delta_specs(si,timeasleep,print_hist,fs)
 % Computes main features of events detected
 PCA_features=[];
     if ~isempty(si)
 
         %% Instantaneous frequency.
-        x=cellfun(@(equis) mean(instfreq(equis,1000)) ,si,'UniformOutput',false);
+        x=cellfun(@(equis) mean(instfreq(equis,fs)) ,si,'UniformOutput',false);
         x=cell2mat(x);
         if print_hist==1
         end
@@ -12,7 +12,7 @@ PCA_features=[];
         x=median(x);
 
         %% Average frequency
-        y=cellfun(@(equis) (meanfreq(equis,1000)) ,si,'UniformOutput',false);
+        y=cellfun(@(equis) (meanfreq(equis,fs)) ,si,'UniformOutput',false);
         y=cell2mat(y);
         th=NaN;
         si_mixed.g1=NaN;
@@ -34,7 +34,7 @@ PCA_features=[];
         z=median(z);
         
         %% Area under the curve
-        l=cell2mat(cellfun(@(equis) trapz((1:length(equis))./1000,abs(equis)),si,'UniformOutput',false));
+        l=cell2mat(cellfun(@(equis) trapz((1:length(equis))./fs,abs(equis)),si,'UniformOutput',false));
         if print_hist==1          
         end
         PCA_features(:,4)=l;
@@ -47,7 +47,7 @@ PCA_features=[];
         h=w/(timeasleep*(60));
 
         %% Duration
-        q=(cellfun('length',si)/1000);
+        q=(cellfun('length',si)/fs);
         if print_hist==1
         end
         PCA_features(:,5)=q;
