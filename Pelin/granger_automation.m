@@ -17,7 +17,6 @@ function [granger,granger2,add]=granger_automation(input1,input2,input3,freqrang
     Data = ft_preprocessing(cfg,Data); 
     
     %
-    freqrange=[0:0.5:20];
     
     [granger,freq]=createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
     
@@ -37,11 +36,11 @@ function [granger,granger2,add]=granger_automation(input1,input2,input3,freqrang
     Data = ft_preprocessing(cfg,Data); 
     
     %
-    freqrange=[0:0.5:20];
+ 
     
     [granger2,freq2]=createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
     
-    %% Contrast
+    %% Take 3rd cluster to normalize colorbar
     fn = 1000;
     leng = length(input3);
     ro = 3000;
@@ -56,7 +55,6 @@ function [granger,granger2,add]=granger_automation(input1,input2,input3,freqrang
     Data = ft_preprocessing(cfg,Data); 
     
     %
-    freqrange=[0:0.5:20];
     
     [add,freq3]=createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
 
