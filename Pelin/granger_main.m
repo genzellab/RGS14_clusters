@@ -2,20 +2,21 @@
 
 clc
 clear
-addpath('/Users/pelinozsezer/Documents/Science/Radboud/RGSProject/code/fieldtrip');
+addpath('/home/genzellab/Desktop/Pelin/fieldtrip');
+addpath('/home/genzellab/Desktop/Pelin-RGS14clusters/functions');
 load('GC_ripple_4clusters_median_wa.mat');
 
 %% What would you like to analyse?
-input1 = GC_cluster1_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
-input2 = GC_cluster2_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
+input1 = GC_cluster2_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
+input2 = GC_cluster3_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
 
-input1_Bp = GC_Bp_cluster1_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
-input2_Bp = GC_Bp_cluster2_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
+input1_Bp = GC_Bp_cluster2_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
+input2_Bp = GC_Bp_cluster3_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
 
 % for normalization, add other cluster
-input3 = GC_cluster3_veh_median_wa; % e.g., GC_cluster3_veh_median_wa
+input3 = GC_cluster1_veh_median_wa; % e.g., GC_cluster3_veh_median_wa
 
-freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
+freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
 
 %% Compute granger
 [granger,granger2,add]=granger_automation(input1,input2,input3,freqrange);
@@ -33,10 +34,10 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Normalize the colorbar
     zmin= min([min(tf_p, [],'all'), min(tf_p2, [],'all'), min(tf_p3, [],'all')],[],'all');
     zmax= max([max(tf_p, [], 'all'), max(tf_p2, [],'all'), max(tf_p3, [],'all')],[],'all');
-    clim_all =[zmin zmax];
+    clim_pfc2hpc =[zmin zmax];
     
     % input1   
-    imagesc(-1:0.01:1,granger.freq,tf_p,clim_all); 
+    imagesc(-1:0.01:1,granger.freq,tf_p,clim_pfc2hpc); 
     axis xy % flip vertically
     colorbar
     colormap(hot(256))
@@ -44,14 +45,14 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     xlim([-1 1])
     xlabel('time')
     ylabel('frequency')
-    title('PFC to HPC - Cluster 1 (Veh)')
+    title('PFC to HPC - Cluster 2 (Veh)')
     
-    saveas(gcf,'pfc2hpc_veh_c1_020_2s.jpg');
-    saveas(gcf,'pfc2hpc_veh_c1_020_2s.pdf');
+    saveas(gcf,'pfc2hpc_veh_c2_100300_2s.fig');
+    saveas(gcf,'pfc2hpc_veh_c2_100300_2s.pdf');
     close all
     
     % input2      
-    imagesc(-1:0.01:1,granger2.freq, tf_p2,clim_all); 
+    imagesc(-1:0.01:1,granger2.freq, tf_p2,clim_pfc2hpc); 
     axis xy % flip vertically
     colorbar
     colormap(hot(256))
@@ -59,24 +60,24 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     xlim([-1 1])
     xlabel('time')
     ylabel('frequency')
-    title('PFC to HPC - Cluster 2 (Veh)') % change accordingly
+    title('PFC to HPC - Cluster 3 (Veh)') % change accordingly
     
-    saveas(gcf,'pfc2hpc_veh_c2_020_2s.jpg'); % change accordingly
-    saveas(gcf,'pfc2hpc_veh_c2_020_2s.pdf');
+    saveas(gcf,'pfc2hpc_veh_c3_100300_2s.fig'); % change accordingly
+    saveas(gcf,'pfc2hpc_veh_c3_100300_2s.pdf');
     close all
     
     % contrast        
     imagesc(-1.1:0.01:1.1,granger.freq,tf_p-tf_p2); 
     axis xy % flip vertically
     colorbar
-    colormap(colorbar_cluster12) % change accordingly
+    colormap(colorbar_cluster23) % change accordingly
     xlim([-1 1])
     xlabel('time')
     ylabel('frequency')
-    title('PFC to HPC - Contrast: Cluster1-2 (Veh)'); % change accordingly
+    title('PFC to HPC - Contrast: Cluster2-3 (Veh)'); % change accordingly
     
-    saveas(gcf,'pfc2hpc_contrast_vehicle_c12_020_2s.jpg'); % change accordingly
-    saveas(gcf,'pfc2hpc_contrast_vehicle_c12_020_2s.pdf');
+    saveas(gcf,'pfc2hpc_contrast_vehicle_c23_100300_2s.fig'); % change accordingly
+    saveas(gcf,'pfc2hpc_contrast_vehicle_c23_100300_2s.pdf');
     close all
     
     %% Stats
@@ -88,7 +89,9 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Iteration of GC trials Veh 
     iter = 30;
     m = 400;
-    grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter);
+   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+       grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
+
     for i = 1:iter
         i
         randorder = randperm(length(q));
@@ -126,7 +129,9 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     % Iteration of GC trials 
     iter = 30;
     m = 400;
-    grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter);
+   % grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter); 
+
     for i = 1:iter
         i
         randorder = randperm(length(q));
@@ -164,15 +169,15 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     J=imagesc(granger.time,granger.freq,zmap);
     axis xy % flip vertically
     colorbar()
-    colormap('colorbar_cluster12') % change accordingly
-    J=title('PFC to HPC - Stats for Contrast: Cluster1-2 (Veh)'); % change accordingly
+    colormap('colorbar_cluster23') % change accordingly
+    J=title('PFC to HPC - Stats for Contrast: Cluster2-3 (Veh)'); % change accordingly
     J.FontSize=12;
     xlabel('Time (s)')
     ylabel('Frequency (Hz)')
     xlim([-1 1])
     
-    saveas(gcf,'pfc2hpc_stats_contrast_vehicle_c12_020_2s.jpg'); % change accordingly
-    saveas(gcf,'pfc2hpc_stats_contrast_vehicle_c12_020_2s.pdf'); % change accordingly
+    saveas(gcf,'pfc2hpc_stats_contrast_vehicle_c23_100300_2s.fig'); % change accordingly
+    saveas(gcf,'pfc2hpc_stats_contrast_vehicle_c23_100300_2s.pdf'); % change accordingly
     close all
     
     %% HPC->PFC 2s
@@ -185,25 +190,10 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
    
     zmin= min([min(tf_p2, [],'all'), min(tf_p, [],'all'), min(tf_p3, [],'all')],[],'all');
     zmax= max([max(tf_p2, [], 'all'), max(tf_p2, [],'all'), max(tf_p3, [],'all')],[],'all');
-    clim =[zmin zmax];
+    clim_hpc2pfc =[zmin zmax];
     
     % input1  
-    imagesc(-1:0.01:1,granger.freq,tf_p,clim_all); 
-    axis xy % flip vertically
-    colorbar
-    colormap(hot(256))
-    
-    xlim([-1 1])
-    xlabel('time')
-    ylabel('frequency')
-    title('HPC to PFC - Cluster 1 (Veh)') % change accordingly
-    
-    saveas(gcf,'hpc2pfc_veh_c1_020_2s.jpg'); % change accordingly
-    saveas(gcf,'hpc2pfc_veh_c1_020_2s.pdf');
-    close all
-    
-    % input2      
-    imagesc(-1:0.01:1,granger2.freq, tf_p2,clim_all); 
+    imagesc(-1:0.01:1,granger.freq,tf_p,clim_hpc2pfc); 
     axis xy % flip vertically
     colorbar
     colormap(hot(256))
@@ -213,22 +203,37 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     ylabel('frequency')
     title('HPC to PFC - Cluster 2 (Veh)') % change accordingly
     
-    saveas(gcf,'hpc2pfc_veh_c2_020_2s.jpg'); % change accordingly
-    saveas(gcf,'hpc2pfc_veh_c2_020_2s.pdf');
+    saveas(gcf,'hpc2pfc_veh_c2_100300_2s.fig'); % change accordingly
+    saveas(gcf,'hpc2pfc_veh_c2_100300_2s.pdf');
+    close all
+    
+    % input2      
+    imagesc(-1:0.01:1,granger2.freq, tf_p2,clim_hpc2pfc); 
+    axis xy % flip vertically
+    colorbar
+    colormap(hot(256))
+    
+    xlim([-1 1])
+    xlabel('time')
+    ylabel('frequency')
+    title('HPC to PFC - Cluster 3 (Veh)') % change accordingly
+    
+    saveas(gcf,'hpc2pfc_veh_c3_100300_2s.fig'); % change accordingly
+    saveas(gcf,'hpc2pfc_veh_c3_100300_2s.pdf');
     close all
        
     % contrast        
     imagesc(-1.1:0.01:1.1, granger.freq, tf_p-tf_p2); 
     axis xy % flip vertically
     colorbar
-    colormap(colorbar_cluster12) % change accordingly
+    colormap(colorbar_cluster23) % change accordingly
     xlim([-1 1])
     xlabel('time')
     ylabel('frequency')
-    title('HPC to PFC - Contrast: Cluster1-2 (Veh)'); % change accordingly
+    title('HPC to PFC - Contrast: Cluster2-3 (Veh)'); % change accordingly
     
-    saveas(gcf,'hpc2pfc_contrast_vehicle_c12_020_2s.jpg'); % change accordingly
-    saveas(gcf,'hpc2pfc_contrast_vehicle_c12_020_2s.pdf');
+    saveas(gcf,'hpc2pfc_contrast_vehicle_c23_100300_2s.fig'); % change accordingly
+    saveas(gcf,'hpc2pfc_contrast_vehicle_c23_100300_2s.pdf');
     close all
     
     %%stats
@@ -240,7 +245,8 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Iteration of GC trials Veh 
     iter = 30;
     m = 400;
-    grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter);
+    %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
     for i = 1:iter
         i
         randorder = randperm(length(q));
@@ -278,7 +284,8 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Iteration of GC trials 
     iter = 30;
     m = 400;
-    grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter);
+   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+   grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
     for i = 1:iter
         i
         randorder = randperm(length(q));
@@ -309,7 +316,7 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     
     granger_tf2= grangerspctrm_concat2;
     
-    % 2nd input is relative to that.
+    % Relative to 2nd input
     a=2; %hpc
     b=1; %pfc
     
@@ -317,13 +324,13 @@ freqrange = [0:0.5:20]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     J=imagesc(granger.time,granger.freq,zmap);
     axis xy % flip vertically
     colorbar()
-    colormap('colorbar_cluster12') % change accordingly
-    J=title('HPC to PFC - Stats for Contrast: Cluster1-2 (Veh)'); % change accordingly
+    colormap('colorbar_cluster23') % change accordingly
+    J=title('HPC to PFC - Stats for Contrast: Cluster2-3 (Veh)'); % change accordingly
     J.FontSize=12;
     xlabel('Time (s)')
     ylabel('Frequency (Hz)')
     xlim([-1 1])
     
-    saveas(gcf,'hpc2pfc_stats_contrast_vehicle_c12_020_2s.jpg'); % change accordingly
-    saveas(gcf,'hpc2pfc_stats_contrast_vehicle_c12_020_2s.pdf');
+    saveas(gcf,'hpc2pfc_stats_contrast_vehicle_c23_100300_2s.fig'); % change accordingly
+    saveas(gcf,'hpc2pfc_stats_contrast_vehicle_c23_100300_2s.pdf');
     close all

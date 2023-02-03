@@ -5,7 +5,6 @@ function [scatter_COL] = density3D_plot(X,Y,Z)
 % TOOLBOX required - histcn!
 % https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/23897/versions/4/previews/histcn.m/index.html
 
-
         data = [X,Y,Z];
 
         numbins = 125;  % change numbin HERE
