@@ -2,14 +2,14 @@ function [concatenatedData,length_concatenatedData] = extractAndConcatenateData(
     concatenatedData = [];
     
     % Iterate over each field in the struct
-fields=    [ {'OD' }
+fields=    [ {'OD' } %Object space Conditions.
     {'HC' }
     {'CON'}
     {'OR' }];
 
     for i = 1:numel(fields)
         fieldValue = structData.(fields{i});
-        fields2=    [ {'Rat1' }
+        fields2=    [ {'Rat1' } %Only Vehicle rats from RGS14 dataset.
             {'Rat2' }
             {'Rat6'}
             {'Rat9' }];
@@ -23,8 +23,8 @@ fields=    [ {'OD' }
             end
               
     end
-    down_samp=40;
-    concatenatedData=downsample(concatenatedData,down_samp);
+    down_samp=1;
+%     concatenatedData=downsample(concatenatedData,down_samp);
     length_concatenatedData=length(concatenatedData);
     concatenatedData=find(concatenatedData)/(fn/down_samp);
 end
