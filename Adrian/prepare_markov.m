@@ -107,7 +107,7 @@ delta_hpc_peak=delta_hpc{i,3};
 [pbout_delta_hpc]=get_ticks_peak(bout_time,pbout_delta_hpc,delta_hpc_peak,i,fn);
 
 end
-% xo
+xo
 
 %Outputs:
 % bout_ripple_c1
