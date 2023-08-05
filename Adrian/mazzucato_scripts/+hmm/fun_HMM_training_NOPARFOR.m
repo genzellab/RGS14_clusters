@@ -53,6 +53,7 @@ for ix=1:NumIter
     tmp(ix).emisguess=rand(VarStates(cnt(ix)),gnunits+1);
     tmp(ix).tol=1;
     for it_cnt=1:NumRuns % run NumRuns times unless we reach tolerance tol<TOL
+        it_cnt
         % RANDOMIZE order of trial presentations for training to avoid
         % biases or getting stuck in a local min of
         % loglikel'd

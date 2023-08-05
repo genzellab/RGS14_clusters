@@ -8,7 +8,8 @@
 function all_data=fun_HMM_training(sequence,gnunits,HmmParam)
 %
 % TOLERANCE
-TOL=1e-10;
+% TOL=1e-10;
+TOL=1e-8;
 % 
 % global screen
 warning('OFF');

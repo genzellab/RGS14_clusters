@@ -1,4 +1,4 @@
-%cd('/home/adrian/Documents/contamineuro_2019_spiking_net')
+cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian/mazzucato_scripts')
 % %----------------------------
 % % CREATE NEURAL ENSEMBLE
 % %----------------------------
@@ -39,9 +39,10 @@ tic
 % transform spike times into observation sequence
 [sequence, ~]=hmm.fun_HMM_binning(spikes,HmmParam,win_train);
 % train HMM
-%hmm_bestfit=hmm.fun_HMM_training_NOPARFOR(sequence,gnunits,HmmParam);
-hmm_bestfit=hmm.fun_HMM_training(sequence,gnunits,HmmParam);
-
+xo
+hmm_bestfit=hmm.fun_HMM_training_NOPARFOR(sequence,gnunits,HmmParam);
+%hmm_bestfit=hmm.fun_HMM_training(sequence,gnunits,HmmParam);
+xo
 fprintf('HMM fit with %d states\n',HmmParam.VarStates);
 toc
 % estimate posterior probabilities

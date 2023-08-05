@@ -207,3 +207,5 @@ end
 %[4,2]
 
 win_train=[zeros(N,1) (nrem_end-nrem_start)'];
+
+cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian/mazzucato_scripts')
