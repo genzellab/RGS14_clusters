@@ -4,7 +4,7 @@ fn=1000; % Sampling rate
 main_path='/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian/RGS_event_timestamps/';
 veh_rats=[1 2 6 9];
 
-for l =1:length(veh_rats)
+for l =1:length(veh_rats) %Iterate across rats
 
 rat_folder=[main_path num2str(veh_rats(l))];
 % rat_folder='/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian/RGS_event_timestamps/1';
@@ -13,12 +13,12 @@ cd(rat_folder)
 
 g=getfolder;
 
-if length(g)~=4
+if length(g)~=4 %Should only be 4 study days (CON, OD, OR, HC).
     error('Extra folders found')
 end
 
 
-for k=1:4
+for k=1:4 %Iterate across Study days. 
 cd([rat_folder '/' g{k}])    
 
 
@@ -419,7 +419,8 @@ xo
 % bout_delta
 % bout_delta_hpc
 %% Load previously computed data
-cd('/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian')
+% cd('/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian')
+cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian')
 load('veh_rgs_data_for_hmm.mat')
 %% OD , HC, CON, OR
 
