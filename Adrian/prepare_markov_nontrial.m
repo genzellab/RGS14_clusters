@@ -441,8 +441,8 @@ pbout_delta=extractAndConcatenateData(Day_Pbout_delta,fn);
 pbout_delta_hpc=extractAndConcatenateData(Day_Pbout_delta_hpc,fn);
 
 
-win_train=[zeros(1,1) length_concatenatedData];
- 
+win_train=[zeros(1,1) length_concatenatedData]/fn; %Should be in seconds
+[num2str(length_concatenatedData/fn/60/60) ' hours'] 
 
 %%
 
