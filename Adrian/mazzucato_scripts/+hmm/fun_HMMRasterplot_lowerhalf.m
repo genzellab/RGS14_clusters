@@ -1,8 +1,8 @@
 % rasterplot with HMM
 % OUTPUT h=figure handle
 
-function fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam)
-
+function [i2,colshade]=fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam)
+allscreen() %If this gives you an error it means that ADRITOOLS is not in your path. 
 % VARIABLES
 %     figure(1); 
 % clf;
@@ -63,8 +63,8 @@ if ~isempty(seq)
     b=ones(1,size(pstates,2));
         for i=1:size(seq,2)
             ind=(time_bins_pstates>=seq(1,i) & time_bins_pstates<seq(2,i));
-            [~,~]=aux.jbfill(time_bins_pstates(ind),...
-                b(ind),a(ind),colshade(seq(4,i),1:3),0,0,0.1);
+%             [~,~]=aux.jbfill(time_bins_pstates(ind),...
+%                 b(ind),a(ind),colshade(seq(4,i),1:3),0,0,0.1);
 %                 b(ind),a(ind),colors(seq(4,i),:),0,0,0.1);
 %             hold on;
         end
@@ -130,6 +130,7 @@ if ~isempty(seq)
     XLim=[0 1.1*max(max(lambda(State_spont(:),:)))];
     exlim=max(lambda(State_spont(:),:).');
     [exlim,i2]=sort(exlim,'descend');
+    exlim=round(exlim,2);
     State_spont=State_spont(i2);
     leg_letters=leg_letters(i2);
     if any(any(lambda))
@@ -158,10 +159,10 @@ if ~isempty(seq)
 %             text(XLim(2)*0.7,gnunits*0.9,leg_letters(st),...
 %                 'LineWidth',1.5,'FontSize',10,'Color','k');
             text(exlim(st)*0.7,gnunits*0.9,leg_letters(st),...
-                'LineWidth',1.5,'FontSize',10,'Color','k');
+                'LineWidth',1.5,'FontSize',14,'Color','k');
             if st==1
 %                set(gca,'Ytick',1:gnunits,'YTickLabel',LegendUnits(1:gnunits));
-                set(gca,'Ytick',1:gnunits,'YTickLabel', LegendNew);
+                set(gca,'Ytick',1:gnunits,'YTickLabel', LegendNew,'FontSize',14);
             else
                 set(gca,'yticklabel',[],'xticklabel',[]);
 
@@ -170,7 +171,9 @@ if ~isempty(seq)
             xlim([0 exlim(st)]*1.1)
             ylim([0.5 gnunits+0.5]);
             xticks([exlim(st)])
-            xticklabels({num2str(exlim(st))})
+            xticklabels({[num2str(exlim(st)) ' /sec']})
+            aaa = get(gca,'XTickLabel');  
+            set(gca,'XTickLabel',aaa,'fontsize',12);
         end
     end
 end

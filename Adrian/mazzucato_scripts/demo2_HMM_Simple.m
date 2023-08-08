@@ -1,4 +1,7 @@
+addpath('/home/adrian/Documents/GitHub/ADRITOOLS')
+
 cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian/mazzucato_scripts')
+
 % %----------------------------
 % % CREATE NEURAL ENSEMBLE
 % %----------------------------
@@ -39,10 +42,12 @@ tic
 % transform spike times into observation sequence
 [sequence, ~]=hmm.fun_HMM_binning(spikes,HmmParam,win_train);
 % train HMM
-xo
-hmm_bestfit=hmm.fun_HMM_training_NOPARFOR(sequence,gnunits,HmmParam);
-%hmm_bestfit=hmm.fun_HMM_training(sequence,gnunits,HmmParam);
-xo
+% xo
+% hmm_bestfit=hmm.fun_HMM_training_NOPARFOR(sequence,gnunits,HmmParam);
+% %hmm_bestfit=hmm.fun_HMM_training(sequence,gnunits,HmmParam);
+% xo
+load('fulldata_200_iterations.mat')
+
 fprintf('HMM fit with %d states\n',HmmParam.VarStates);
 toc
 % estimate posterior probabilities
@@ -68,9 +73,9 @@ hmm_postfit=hmm.fun_HMM_postfit(spikes,hmm_results,HmmParam,win_train);
 %% PLOTS
 hmmdir=fullfile('data','hmm'); if ~exist(hmmdir,'dir'); mkdir(hmmdir); end
 colors=aux.distinguishable_colors(max(HmmParam.VarStates,4));
-% plot tpm and epm
-% hmm.plot_tpm_epm;
 % plot trials
 hmm.plot_trials;
+% plot tpm and epm
+hmm.plot_tpm_epm;
 
 
