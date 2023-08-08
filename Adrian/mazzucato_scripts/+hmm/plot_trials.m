@@ -1,5 +1,5 @@
 PlotParam=[];
-itrial=3;
+itrial=4;
 %for itrial=1:ntrials
     figure(3); clf;
     filename=fullfile(hmmdir,['Plot_trial' num2str(itrial) '.pdf']);
@@ -8,6 +8,6 @@ itrial=3;
         hmm_results(itrial).pStates,'rates',hmm_results(itrial).rates);
     DATA.Spikes(1:gnunits)=spikes(itrial,1:gnunits);
 %     figure(1); clf;
-    hmm.fun_HMMRasterplot(DATA,HmmParam,PlotParam);
+    hmm.fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam);
     %saveas(gcf,filename,'pdf');
 %end

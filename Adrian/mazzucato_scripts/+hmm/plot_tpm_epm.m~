@@ -3,17 +3,7 @@ epm0=hmm_bestfit.epm/HmmParam.BinSize; epm0(:,end)=[]; %epm0=epm0';
 col=colors;
 % sort states from the longest lived
 [B,I]=sort(diag(tpm0),'descend');
-tpm=tpm0(I,I); epm=(epm0(I,:)); col=col(I,:);
-
-% Choose a small positive threshold
-epsilon = 1e-3;
-
-% Threshold the array to prevent extremely small values
-thresholded_data = max(epm, epsilon);
-
-% Apply logarithm to the thresholded array
-epm = log10(thresholded_data);
-
+tpm=tpm0(I,I); epm=log10epm0(I,:); col=col(I,:);
 % TPM
 minExp=4;
 tpm(tpm<10^(-minExp))=10^(-minExp);
@@ -43,7 +33,7 @@ hi=imagesc(fliplr(epm)'); hC=colorbar;% set(hC,'ColorScale','log')
 set(gca,'ytick',[1:1:size(epm,2)],'yticklabel',[{'Dc'}; {'Dh'}; {'Sc'}; {'Sh'}; {'RC3'}; {'RC2'}; {'RC1'}]);
 %set(gca,'ytick',[1,size(epm,2)],'yticklabel',[size(epm,2),1]);
 
-ylabel(hC,'log10( Occurrence rate )  [events/s]','FontSize',15);
+ylabel(hC,'Occurrence rate [events/s]','FontSize',15);
 aux.figset(gca,'State',[],'Emission Probability',15);
 filename=fullfile(hmmdir,'Epm.pdf');
 saveas(gcf,filename,'pdf');

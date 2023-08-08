@@ -48,7 +48,8 @@ end
 PlotCols=1;
 if ~isempty(seq)
     % admissible states
-    State_spont=unique(seq(4,:),'Stable');
+%     State_spont=unique(seq(4,:),'Stable');
+    State_spont=unique(seq(4,:),'sorted');    
     PlotCols=numel(State_spont)+1;
 end
 % subplot(2,PlotCols,[1 PlotCols])
@@ -128,6 +129,9 @@ if ~isempty(seq)
     lambda_plot=[]; x_shade=[];
     XLim=[0 1.1*max(max(lambda(State_spont(:),:)))];
     exlim=max(lambda(State_spont(:),:).');
+    [exlim,i2]=sort(exlim,'descend');
+    State_spont=State_spont(i2);
+    leg_letters=leg_letters(i2);
     if any(any(lambda))
         for st=1:numel(State_spont)
 %             if lfp_mode

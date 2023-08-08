@@ -25,6 +25,13 @@ for n=1:max(NumStates,gnunits)
     LegendUnits{n}=sprintf('%s',num2str(n));
 end
 AdjustX=0;
+LegendNew{1}='RC1';
+LegendNew{2}='RC2';
+LegendNew{3}='RC3';
+LegendNew{4}='Sh';
+LegendNew{5}='Sc';
+LegendNew{6}='Dh';
+LegendNew{7}='Dc';
 
 
 time_bins_pstates=DATA.win(1):BinSize:DATA.win(2)-BinSize; % time bins corresponding to pstates, already includes AdjustX offset
@@ -146,7 +153,8 @@ if ~isempty(seq)
             text(exlim(st)*0.7,gnunits*0.9,leg_letters(st),...
                 'LineWidth',1.5,'FontSize',10,'Color','k');
             if st==1
-                set(gca,'Ytick',1:gnunits,'YTickLabel',LegendUnits(1:gnunits));
+%                 set(gca,'Ytick',1:gnunits,'YTickLabel',LegendUnits(1:gnunits));
+                set(gca,'Ytick',1:gnunits,'YTickLabel', LegendNew);                
             else
                 set(gca,'yticklabel',[],'xticklabel',[]);
 
