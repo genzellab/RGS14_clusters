@@ -1,13 +1,17 @@
 clc
 % Example transition probability matrix for 10 states
 %transition_matrix = rand(10, 10);  % Replace with your transition probabilities
-transition_matrix=tpm';
+% transition_matrix=tpm'; % first approach;
+transition_matrix=Transition_matrix'; % second approach
+
 % Create a directed graph from the transition matrix
 num_states = size(transition_matrix, 1);
-
+transition_matrix(transition_matrix==0)=0.000001; % Used to avoid exact zero entries.
 % Plot the graph with 'force' layout and customized edge properties
-figure;
+% figure;
+allscreen()
 p = plot(digraph(transition_matrix), 'Layout', 'force', 'EdgeLabel', transition_matrix(:), 'ArrowSize', 20);
+%p = plot(digraph(transition_matrix), 'Layout', 'force',  'ArrowSize', 20);
 % EdgesValues=digraph(transition_matrix).Edges;
 % EdgesValues=EdgesValues.Weight;
 EdgesValues=transition_matrix(:);
@@ -83,3 +87,10 @@ cb.Label.FontSize=14;
 %     'TickLabels',["" "0.01" "0.5" "1" "1.5" "2" "5" "10" "15" "20" "25" "50" "75" "100" "250" "500" ">500"]);
 % colormap(gray)
 set(gca,'Visible','off')
+set(gcf,'color','w');
+xo
+cd('/home/adrian/Documents/rgs_clusters_figs')
+printing('veh_moving')
+printing_image('veh_moving')
+% printing('veh_HC')
+% printing_image('veh_HC')
