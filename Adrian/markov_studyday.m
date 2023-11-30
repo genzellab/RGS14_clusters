@@ -4,9 +4,16 @@ addpath(genpath('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian'))
 cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian')
 load('veh_rgs_data_for_hmm.mat')
 %% Select condition(s) and rat(s).
-ConditionField=[ {'OR' } ]
-RatField=[ {'Rat1' } ];
-
+ConditionField=[ %{'OD' } %Object space Conditions.
+     {'CON'}
+%     {'HC' } 
+     {'OR' }];
+%ConditionField=[ {'OD' } ];
+% RatField=[ {'Rat1' } ];
+        RatField=    [ {'Rat1' } %Only Vehicle rats from RGS14 dataset.
+            {'Rat2' }
+            {'Rat6'}
+            {'Rat9' }];
 bout_ripple_c1=extractSpecificData(Day_Bout_ripple_c1,ConditionField,RatField ,fn);
 bout_ripple_c2=extractSpecificData(Day_Bout_ripple_c2,ConditionField,RatField,fn);
 bout_ripple_c3=extractSpecificData(Day_Bout_ripple_c3,ConditionField,RatField,fn);
