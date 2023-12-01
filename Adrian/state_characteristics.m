@@ -1,3 +1,4 @@
+cd('/home/adrian/Documents/rgs_clusters_figs')
 %     hmm_postfit(i_trial).sequence: array of dimension [4,nseq] where columns represent detected states (intervals with prob(state)>0.8), in the order they appear in trial
 %         i_trial, and rows represent state [onset,offset,duration,label].
 states_HC=load('hmmdecoding_HC.mat');
