@@ -1,4 +1,5 @@
 cd('/home/adrian/Documents/rgs_clusters_figs')
+num_states=10; %Number of states
 %     hmm_postfit(i_trial).sequence: array of dimension [4,nseq] where columns represent detected states (intervals with prob(state)>0.8), in the order they appear in trial
 %         i_trial, and rows represent state [onset,offset,duration,label].
 states_HC=load('hmmdecoding_HC.mat');
@@ -6,10 +7,10 @@ states_OS=load('hmmdecoding_OS.mat');
 states_stable=load('hmmdecoding_stable.mat');
 states_moving=load('hmmdecoding_moving.mat');
 
-[StateMetric_HC]=state_metrics(states_HC.hmm_postfit);
-[StateMetric_OS]=state_metrics(states_OS.hmm_postfit);
-[StateMetric_stable]=state_metrics(states_stable.hmm_postfit);
-[StateMetric_moving]=state_metrics(states_moving.hmm_postfit);
+[StateMetric_HC]=state_metrics(states_HC.hmm_postfit,num_states);
+[StateMetric_OS]=state_metrics(states_OS.hmm_postfit,num_states);
+[StateMetric_stable]=state_metrics(states_stable.hmm_postfit,num_states);
+[StateMetric_moving]=state_metrics(states_moving.hmm_postfit,num_states);
 
 xo
 %Total duration.
@@ -54,12 +55,16 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing_image('State total time (zoomed in)')
+%printing_image('State total time (zoomed in)')
 ylim([0 10])
-%% Total duration minus Homecage
+%% Total duration minus Homecage (TDMH)
 allscreen()
+tdmh=[totaldur_OS-totaldur_HM;totaldur_stable-totaldur_HM;totaldur_moving-totaldur_HM].'*100;
+bar(tdmh)
+T = table(tdmh);
+filename = 'TotalDurationMinusHC.xlsx';
+% writetable(T,filename,'Sheet',1,'Range','A1:Z15')
 
-bar([totaldur_OS-totaldur_HM;totaldur_stable-totaldur_HM;totaldur_moving-totaldur_HM].'*100)
 L=legend('OS-HC','Stable-HC','Moving-HC');
 L.FontSize=14;
 % ylabel('Hours')
@@ -76,7 +81,7 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing_image('State total time (zoomed in)')
+%printing_image('State total time (zoomed in)')
 % ylim([0 10])
 
 %% Bout count
@@ -104,11 +109,15 @@ h.Children(4).FaceColor=[0.5 0.5 0.5];
 h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
-printing('States bout counts')
-%% Bout count- Homecage
+%printing('States bout counts')
+%% Bout count minus Homecage (BCMH)
 allscreen()
+bcmh=[boutcount_OS-boutcount_HM;boutcount_stable-boutcount_HM;boutcount_moving-boutcount_HM].'*100;
+bar(bcmh)
+T = table(bcmh);
+filename = 'BoutCountMinusHC.xlsx';
+writetable(T,filename,'Sheet',1,'Range','A1:Z15')
 
-bar([boutcount_OS-boutcount_HM;boutcount_stable-boutcount_HM;boutcount_moving-boutcount_HM].'*100)
 L=legend('OS-HC','Stable-HC','Moving-HC');
 L.FontSize=14;
 % ylabel('Hours')
@@ -125,7 +134,7 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing_image('State bout counts minus HC')
+%printing_image('State bout counts minus HC')
 %%
 
 %%

@@ -1,6 +1,8 @@
-function [StateMetric]=state_metrics(hmm_postfit)
+function [StateMetric]=state_metrics(hmm_postfit,num_states)
+%Extract individual bout durations, total cumulative durations
+%and total number of bouts. 
 
-    num_states=10; %number of states
+    %num_states=10; %number of states
     for state=1:num_states
     st_ind=find(hmm_postfit.sequence(4,:)==state);
 

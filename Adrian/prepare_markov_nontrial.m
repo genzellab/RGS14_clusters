@@ -422,6 +422,7 @@ xo
 % cd('/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian')
 cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian')
 load('veh_rgs_data_for_hmm.mat')
+addpath('functions')
 %% OD , HC, CON, OR
 
 bout_ripple_c1=extractAndConcatenateData(Day_Bout_ripple_c1,fn);

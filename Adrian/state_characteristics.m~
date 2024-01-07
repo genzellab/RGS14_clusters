@@ -1,3 +1,5 @@
+cd('/home/adrian/Documents/rgs_clusters_figs')
+num_states=10; %Number of states
 %     hmm_postfit(i_trial).sequence: array of dimension [4,nseq] where columns represent detected states (intervals with prob(state)>0.8), in the order they appear in trial
 %         i_trial, and rows represent state [onset,offset,duration,label].
 states_HC=load('hmmdecoding_HC.mat');
@@ -5,10 +7,10 @@ states_OS=load('hmmdecoding_OS.mat');
 states_stable=load('hmmdecoding_stable.mat');
 states_moving=load('hmmdecoding_moving.mat');
 
-[StateMetric_HC]=state_metrics(states_HC.hmm_postfit);
-[StateMetric_OS]=state_metrics(states_OS.hmm_postfit);
-[StateMetric_stable]=state_metrics(states_stable.hmm_postfit);
-[StateMetric_moving]=state_metrics(states_moving.hmm_postfit);
+[StateMetric_HC]=state_metrics(states_HC.hmm_postfit,num_states);
+[StateMetric_OS]=state_metrics(states_OS.hmm_postfit,num_states);
+[StateMetric_stable]=state_metrics(states_stable.hmm_postfit,num_states);
+[StateMetric_moving]=state_metrics(states_moving.hmm_postfit,num_states);
 
 xo
 %Total duration.
@@ -53,12 +55,16 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing_image('State total time (zoomed in)')
+%printing_image('State total time (zoomed in)')
 ylim([0 10])
-%% Total duration minus Homecage
+%% Total duration minus Homecage (TDMH)
 allscreen()
+tdmh=[totaldur_OS-totaldur_HM;totaldur_stable-totaldur_HM;totaldur_moving-totaldur_HM].'*100;
+bar(tdmh)
+T = table(tdmh);
+filename = 'patientdata.xlsx';
+writetable(T,filename,'Sheet',1,'Range','D1')
 
-bar([totaldur_OS-totaldur_HM;totaldur_stable-totaldur_HM;totaldur_moving-totaldur_HM].'*100)
 L=legend('OS-HC','Stable-HC','Moving-HC');
 L.FontSize=14;
 % ylabel('Hours')
@@ -75,7 +81,7 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing_image('State total time (zoomed in)')
+%printing_image('State total time (zoomed in)')
 % ylim([0 10])
 
 %% Bout count
@@ -111,7 +117,7 @@ bar([boutcount_OS-boutcount_HM;boutcount_stable-boutcount_HM;boutcount_moving-bo
 L=legend('OS-HC','Stable-HC','Moving-HC');
 L.FontSize=14;
 % ylabel('Hours')
-ylabel('Percentage of time')
+ylabel('Percentage of bouts')
 h=gca;
 h.XAxis.FontSize=14;
 h.YAxis.FontSize=14;
@@ -124,7 +130,7 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
-printing('State bout counts minus HC')
+printing_image('State bout counts minus HC')
 %%
 
 %%
@@ -148,17 +154,38 @@ addpath('/home/adrian/Downloads/violin')
 %%
 close all
 allscreen()
-violin2(interleave2(array10_HC, array10_moving, 'col'))
+violin2(interleave2(array10_HC, array10_stable, 'col'))
 ylim([0 1])
 h=gca;
 h.XTick=[1:20];
+h.XTickLabel=[    {'1' }
+    {'1' }
+    {'2' }
+    {'2' }
+    {'3' }
+    {'3' }
+    {'4' }
+    {'4' }
+    {'5' }
+    {'5'}
+    {'6'}
+    {'6'}
+    {'7'}
+    {'7'}
+    {'8'}
+    {'8'}
+    {'9'}
+    {'9'}
+    {'10'}
+    {'10'}
+    ];
 xlabel('State')
 ylabel('Seconds')
-h.Title.String='State bout durations (HC vs Moving)'
+h.Title.String='State bout durations (HC vs Stable)'
 h.Title.FontSize=16;
 h.XAxis.FontSize=14;
 h.YAxis.FontSize=14;
-
+% 
 % h.Children(3).FaceColor=[0 1 0.3];
 % h.Children(9).FaceColor=[0 1 0.3];
 % h.Children(15).FaceColor=[0 1 0.3];
@@ -169,26 +196,30 @@ h.YAxis.FontSize=14;
 % h.Children(45).FaceColor=[0 1 0.3];
 % h.Children(51).FaceColor=[0 1 0.3];
 % h.Children(57).FaceColor=[0 1 0.3];
-% h.Children(3).FaceColor=[0 0 1]; %[1 0.3 0]
-% h.Children(9).FaceColor=[0 0 1];
-% h.Children(15).FaceColor=[0 0 1];
-% h.Children(21).FaceColor=[0 0 1];
-% h.Children(27).FaceColor=[0 0 1];
-% h.Children(33).FaceColor=[0 0 1];
-% h.Children(39).FaceColor=[0 0 1];
-% h.Children(45).FaceColor=[0 0 1];
-% h.Children(51).FaceColor=[0 0 1];
-% h.Children(57).FaceColor=[0 0 1];
-h.Children(3).FaceColor=[1 0.3 0]; %[1 0.3 0]
-h.Children(9).FaceColor=[1 0.3 0];
-h.Children(15).FaceColor=[1 0.3 0];
-h.Children(21).FaceColor=[1 0.3 0];
-h.Children(27).FaceColor=[1 0.3 0];
-h.Children(33).FaceColor=[1 0.3 0];
-h.Children(39).FaceColor=[1 0.3 0];
-h.Children(45).FaceColor=[1 0.3 0];
+
+%sTABLE
+h.Children(3).FaceColor=[0 0 1]; %[1 0.3 0]
+h.Children(9).FaceColor=[0 0 1];
+h.Children(15).FaceColor=[0 0 1];
+h.Children(21).FaceColor=[0 0 1];
+h.Children(27).FaceColor=[0 0 1];
+h.Children(33).FaceColor=[0 0 1];
+h.Children(39).FaceColor=[0 0 1];
+h.Children(45).FaceColor=[0 0 1];
 h.Children(51).FaceColor=[0 0 1];
 h.Children(57).FaceColor=[0 0 1];
+
+%mOVING
+% h.Children(3).FaceColor=[1 0.3 0]; %[1 0.3 0]
+% h.Children(9).FaceColor=[1 0.3 0];
+% h.Children(15).FaceColor=[1 0.3 0];
+% h.Children(21).FaceColor=[1 0.3 0];
+% h.Children(27).FaceColor=[1 0.3 0];
+% h.Children(33).FaceColor=[1 0.3 0];
+% h.Children(39).FaceColor=[1 0.3 0];
+% h.Children(45).FaceColor=[1 0.3 0];
+% h.Children(51).FaceColor=[1 0.3 0];
+% h.Children(57).FaceColor=[1 0.3 0];
 
 h.Children(3+3).FaceColor=[0.5 0.5 0.5];
 h.Children(9+3).FaceColor=[0.5 0.5 0.5];
@@ -201,8 +232,9 @@ h.Children(45+3).FaceColor=[0.5 0.5 0.5];
 h.Children(51+3).FaceColor=[0.5 0.5 0.5];
 h.Children(57+3).FaceColor=[0.5 0.5 0.5];
 
-% printing_image('bout_durations_HC_vs_OS')
-% printing_image('bout_durations_HC_vs_stable')
+%printing_image('bout_durations_HC_vs_OS')
+printing_image('bout_durations_HC_vs_stable')
+%printing_image('bout_durations_HC_vs_moving')
 
 % 
 % h.Children(3).FaceColor=[0 1 0.3];
