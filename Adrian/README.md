@@ -10,4 +10,4 @@
 
 - state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions.
   
-- compute_tpm.m: As name suggests, it computes the transition probability matrix and displays the network in a similar fashion as the Poe paper.  
+- [compute_tpm.m](https://github.com/genzellab/RGS14_clusters/blob/main/Adrian/compute_tpm.m): As name suggests, it computes the transition probability matrix and displays the network in a similar fashion as the Poe paper.  
