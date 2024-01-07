@@ -6,4 +6,6 @@
 
 - prepare_markov_nontrial.m: Generates the spikes and spikes_peak structs in the format needed for the hmm analysis.
   
-- markov_studyday.m: Same as "prepare_markov_nontrial.m" but can be customized to specific study days. 
+- markov_studyday.m: Same as "prepare_markov_nontrial.m" but customized to specific study days. Prerequisite for "state_characteristics.m".
+
+- state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions. 
