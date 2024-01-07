@@ -1,3 +1,5 @@
+function transition_network_poe(tpm)
+
 clc
 % Example transition probability matrix for 10 states
 %transition_matrix = rand(10, 10);  % Replace with your transition probabilities
@@ -42,3 +44,4 @@ output_filename = 'transition_network.png';
 
 % Display completion message
 disp(['Graph visualization saved as: ' output_filename]);
+end
