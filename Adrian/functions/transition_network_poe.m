@@ -1,3 +1,5 @@
+function transition_network_poe(Transition_matrix,colors)
+%Generates transitions figure similar to Gina Poe's.
 clc
 % Example transition probability matrix for 10 states
 %transition_matrix = rand(10, 10);  % Replace with your transition probabilities
@@ -94,3 +96,4 @@ printing('veh_moving')
 printing_image('veh_moving')
 % printing('veh_HC')
 % printing_image('veh_HC')
+end

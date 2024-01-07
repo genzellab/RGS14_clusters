@@ -1,3 +1,11 @@
+cd /home/adrian/Documents/GitHub/RGS14_clusters/Adrian/mazzucato_scripts
+load fulldata_200_iterations.mat % Get hmm_bestfit. Change this as needed. 
+numstates=10; %Number of states.
+colors=aux.distinguishable_colors(max(numstates,4));
+
+cd /home/adrian/Documents/rgs_clusters_figs
+load hmmdecoding_HC.mat %Get hmm_postfit and hmm_results. Change this as needed. 
+
 % close all
 % trm=hmm_bestfit.tpm;
 % trm(find(eye(size(trm))))=zeros(1,10);
@@ -55,5 +63,9 @@ transition_matrix = transition_matrix ./ sum(transition_matrix, 2);
 % disp(transition_matrix
 %%
 % [~,I]=sort(diag(transition_matrix),'descend');
+tpm0=hmm_bestfit.tpm;
+
 [~,I]=sort(diag(tpm0),'descend');
 Transition_matrix=transition_matrix(I,I); 
+% Move to transition_network_poe. 
+transition_network_poe(Transition_matrix,colors); 
