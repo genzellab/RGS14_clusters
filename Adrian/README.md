@@ -8,4 +8,6 @@
   
 - markov_studyday.m: Same as "prepare_markov_nontrial.m" but customized to specific study days. Prerequisite for "state_characteristics.m".
 
-- state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions. 
+- state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions.
+
+-compute_tpm.m: As name suggests, it computes the transition probability matrix and displays the network in a similar fashion as the Poe paper.  
