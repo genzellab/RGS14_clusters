@@ -5,7 +5,7 @@ numstates=10; %Number of states.
 colors=aux.distinguishable_colors(max(numstates,4));
 
 cd /home/adrian/Documents/rgs_clusters_figs
-load hmmdecoding_stable.mat %Get hmm_postfit and hmm_results. Change this as needed. 
+load hmmdecoding_HC.mat %Get hmm_postfit and hmm_results. Change this as needed. 
 
 % close all
 % trm=hmm_bestfit.tpm;
@@ -22,23 +22,31 @@ load hmmdecoding_stable.mat %Get hmm_postfit and hmm_results. Change this as nee
 
 %%
 % Sample vector of states
-% states = [1, 2, 1, 3, 2, 1, 3, 3, 2, 1];
 states=[hmm_postfit.sequence(4,:)];
-state_dur=[hmm_postfit.sequence(3,:)];
-BinSize=0.010;
-stateepochs=round(state_dur/BinSize);
-% Preallocate the newstates array
-total_length = sum(stateepochs);
-newstates = zeros(1, total_length);
+answer = questdlg('Include intra-state transitions?', ...
+	'Select an option', ...
+	'Yes','No','No');
 
-% Create indices for each state based on its duration
-indices = cumsum([1 stateepochs(1:end-1)]);
-% Use array indexing for efficient assignment
-for i = 1:length(states)
-    newstates(indices(i):indices(i) + stateepochs(i) - 1) = states(i);
+if strcmp('Yes',answer)
+
+    state_dur=[hmm_postfit.sequence(3,:)];
+    BinSize=0.010;
+    stateepochs=round(state_dur/BinSize);
+    % Preallocate the newstates array
+    total_length = sum(stateepochs);
+    newstates = zeros(1, total_length);
+
+    % Create indices for each state based on its duration
+    indices = cumsum([1 stateepochs(1:end-1)]);
+
+
+    % Use array indexing for efficient assignment
+    for i = 1:length(states)
+        newstates(indices(i):indices(i) + stateepochs(i) - 1) = states(i);
+    end
+    states=newstates;
 end
 %%
-states=newstates;
 % newstates=[];
 % parfor i=1:length(states)
 %     newstates=[newstates repelem(states(i),stateepochs(i))];
@@ -69,8 +77,8 @@ tpm0=hmm_bestfit.tpm;
 [~,I]=sort(diag(tpm0),'descend');
 Transition_matrix=transition_matrix(I,I); 
 T=table(Transition_matrix);
-filename = 'TPM.xlsx';
-%writetable(T,filename,'Sheet','stable','Range','A1:Z15')
+filename = 'TPM_inter.xlsx';
+%writetable(T,filename,'Sheet','HC','Range','A1:Z15')
 
 % Move to transition_network_poe. 
 %transition_network_poe(Transition_matrix,colors); 
