@@ -1,4 +1,5 @@
 # HMM analysis
+Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_spiking_net) with some slight adaptations.
 
 - prepare_markov.m: Function created to test the analysis using a single study day. It preprocesses the data of a NREM bout and displays it. Continue the analysis running 'demo2_HMM_Simple.m'
 
