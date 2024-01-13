@@ -1,7 +1,7 @@
 % rasterplot with HMM
 % OUTPUT h=figure handle
 
-function [i2,colshade]=fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam)
+function [i2,colshade]=fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam,LegendNew)
 allscreen() %If this gives you an error it means that ADRITOOLS is not in your path. 
 % VARIABLES
 %     figure(1); 
@@ -24,13 +24,13 @@ LegendUnits=cell(1,max(NumStates,gnunits));
 for n=1:max(NumStates,gnunits)
     LegendUnits{n}=sprintf('%s',num2str(n));
 end
-LegendNew{1}='RC1';
-LegendNew{2}='RC2';
-LegendNew{3}='RC3';
-LegendNew{4}='Sh';
-LegendNew{5}='Sc';
-LegendNew{6}='Dh';
-LegendNew{7}='Dc';
+% LegendNew{1}='RC1';
+% LegendNew{2}='RC2';
+% LegendNew{3}='RC3';
+% LegendNew{4}='Sh';
+% LegendNew{5}='Sc';
+% LegendNew{6}='Dh';
+% LegendNew{7}='Dc';
 
 
 AdjustX=0;
@@ -61,13 +61,13 @@ if ~isempty(seq)
     h=[];
     a=zeros(1,size(pstates,2));
     b=ones(1,size(pstates,2));
-        for i=1:size(seq,2)
-            ind=(time_bins_pstates>=seq(1,i) & time_bins_pstates<seq(2,i));
-%             [~,~]=aux.jbfill(time_bins_pstates(ind),...
-%                 b(ind),a(ind),colshade(seq(4,i),1:3),0,0,0.1);
-%                 b(ind),a(ind),colors(seq(4,i),:),0,0,0.1);
-%             hold on;
-        end
+%         for i=1:size(seq,2)
+%             ind=(time_bins_pstates>=seq(1,i) & time_bins_pstates<seq(2,i));
+% %             [~,~]=aux.jbfill(time_bins_pstates(ind),...
+% %                 b(ind),a(ind),colshade(seq(4,i),1:3),0,0,0.1);
+% %                 b(ind),a(ind),colors(seq(4,i),:),0,0,0.1);
+% %             hold on;
+%         end
 %     end
     plot_cnt=0;
     for st=State_spont
