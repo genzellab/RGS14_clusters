@@ -3,7 +3,7 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 
 - prepare_markov.m: Function created to test the analysis using a single study day. It preprocesses the data of a NREM bout and displays it. Continue the analysis running 'demo2_HMM_Simple.m'. __Discontinued__, rather use the "nontrial" versions. 
 
-- veh_rgs_data_for_hmm.mat: Structure which contains all data needed for HMM analysis from Vehicle study days of the RGS14 project. Generated from 'prepare_markov_nontrial.m'.
+- veh_rgs_data_for_hmm.mat: Structure which contains all data needed for HMM analysis from Vehicle study days of the RGS14 project. Generated from 'prepare_markov_nontrial.m'. The C3 split in short and long was not performed for this data. 
 
 - prepare_markov_nontrial.m: Generates the spikes and spikes_peak structs in the format needed for the hmm analysis.
   
