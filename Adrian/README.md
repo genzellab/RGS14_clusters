@@ -16,3 +16,10 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions.
   
 - [compute_tpm.m](https://github.com/genzellab/RGS14_clusters/blob/main/Adrian/compute_tpm.m): As the name suggests, it computes the transition probability matrix and displays the network in a similar fashion as the [Poe paper](https://doi.org/10.1073/pnas.212342711).  
+
+<p align="center">
+<img src="transition_prob.JPG" width="700">
+</p>
+<p align="center">
+<img src="example_network.JPG" width="700">
+</p>
