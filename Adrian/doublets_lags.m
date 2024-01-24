@@ -1,3 +1,7 @@
+%Computes lags between different ripple types. 
+% Purpose is to determine if behaviour is more doublet-like or
+% singlet-like.
+
 c1=spikes_peak(1).spk;
 c2=spikes_peak(2).spk;
 c3Short=spikes_peak(3).spk; %seconds

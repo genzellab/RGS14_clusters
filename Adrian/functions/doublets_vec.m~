@@ -6,7 +6,12 @@ function [lag]=doublets_vec(a_p,n_p,lagLimLow,lagLimUP)
 %           lagLimLow: lower bound lag (typically 0)
 %           lagLimUP: upper bound lag (window size you want to study)
 %    output:,
-%           lag : time difference between peaks of event 2 and 1.
+%           lag : time difference between pea
+%           co_vec2 : index of cooccurring event 2
+%           count_co_vec1 : total count of cooccurring event 1
+%           count_co_vec2 : total count of cooccurring event 2
+
+% To correct for repititions, use unique(co_vec1) or unique(co_vec2)
     
 
     co_vec1=[];%HPC
