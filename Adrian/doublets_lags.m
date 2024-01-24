@@ -8,7 +8,7 @@ c3Short=spikes_peak(3).spk; %seconds
 c3Long=spikes_peak(4).spk; %seconds
 
 %%
-lagLim=3; %0.500
+lagLim=0.20; %0.500
 lagLimLow=0;
 %C1
 [lag_c1c2]=doublets_vec(c1,c2,lagLimLow,lagLim);
@@ -26,9 +26,9 @@ lagLimLow=0;
 [lag_c3Longc1]=doublets_vec(c3Long,c1,lagLimLow,lagLim);
 [lag_c3Longc2]=doublets_vec(c3Long,c2,lagLimLow,lagLim);
 [lag_c3Longc3Short]=doublets_vec(c3Long,c3Short,lagLimLow,lagLim);
-%%
+%% Plots normalized histograms and custumized kernel density estimate.
 nbin=100;
-ylimval=0.03;
+ylimval=0.08;
 pts = linspace(lagLimLow,lagLim*1000,1000);
 allscreen()
 
