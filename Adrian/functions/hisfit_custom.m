@@ -9,4 +9,6 @@ plot(xi,f./max(f).*max(a.Values),'LineWidth',2.5,'Color',[1 0 0]);
 p= a.Values(a.Values>0); % avoid bins with zeros. 
 H=sum(p.*log2(p))*-1;
 text(mean(pts)/2, 0.04, [num2str(H) ' bits'])
+hold on
+ xline(median(lag_c1c2),'LineWidth',3,'Color',[0 1 0])
 end
