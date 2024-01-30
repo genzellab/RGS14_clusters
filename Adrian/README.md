@@ -27,3 +27,4 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 # Multiplets analysis 
 - markov_studyday_with_trials.m: Generates multiplet table with ripple counts for Lisa. It splits data per Object Space trials.
 - doublets_types_proportion.m: Simple script. Visualizes percentage of ripple types participating in first, second, and third ripple in doubletes and triplets respectively. 
+- prepare_markov_nontrial_splitC3_with_trials.m: Same as prepare_markov_nontrial_splitC3, but splitting data per trials. Needed for creating table from script above splitting counts per trial. 
