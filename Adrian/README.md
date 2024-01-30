@@ -23,3 +23,5 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 <p align="center">
 <img src="example_network.JPG" width="700">
 </p>
+
+- markov_studyday_with_trials.m: Generates multiplet table with ripple counts for Lisa. It splits data per Object Space trials. 
