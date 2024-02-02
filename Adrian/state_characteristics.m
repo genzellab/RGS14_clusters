@@ -1,16 +1,24 @@
 cd('/home/adrian/Documents/rgs_clusters_figs')
-num_states=10; %Number of states
+num_states=11; %Number of states
 %     hmm_postfit(i_trial).sequence: array of dimension [4,nseq] where columns represent detected states (intervals with prob(state)>0.8), in the order they appear in trial
 %         i_trial, and rows represent state [onset,offset,duration,label].
-states_HC=load('hmmdecoding_HC.mat');
-states_OS=load('hmmdecoding_OS.mat');
-states_stable=load('hmmdecoding_stable.mat');
-states_moving=load('hmmdecoding_moving.mat');
+states_HC=load('hmmdecoding_HC_c3split_11states.mat');
+states_OS=load('hmmdecoding_OS_c3split_11states.mat');
+states_stable=load('hmmdecoding_stable_c3split_11states.mat');
+states_moving=load('hmmdecoding_moving_c3split_11states.mat');
 
-[StateMetric_HC]=state_metrics(states_HC.hmm_postfit,num_states);
-[StateMetric_OS]=state_metrics(states_OS.hmm_postfit,num_states);
-[StateMetric_stable]=state_metrics(states_stable.hmm_postfit,num_states);
-[StateMetric_moving]=state_metrics(states_moving.hmm_postfit,num_states);
+%These values were obtained from the length_concatenatedData variable in
+%'markov_studyday_splitC3.m'. Units are in samples. 
+HC_total_duration=38095000;
+Stable_total_duration=27847000;
+Moving_total_duration=    73612000;
+OS_total_duration=101459000;
+fn=1000;
+
+[StateMetric_HC]=state_metrics(states_HC.hmm_postfit,num_states,HC_total_duration/fn/60); % total duration in minutes
+[StateMetric_OS]=state_metrics(states_OS.hmm_postfit,num_states,OS_total_duration/fn/60);
+[StateMetric_stable]=state_metrics(states_stable.hmm_postfit,num_states,Stable_total_duration/fn/60);
+[StateMetric_moving]=state_metrics(states_moving.hmm_postfit,num_states,Moving_total_duration/fn/60);
 
 xo
 %Total duration.
@@ -37,7 +45,16 @@ totaldur_moving=(StateMetric_moving.total_duration)/sum(StateMetric_moving.total
 % totaldur_moving(3)=[];
 allscreen()
 
-bar([totaldur_HM;totaldur_OS;totaldur_stable;totaldur_moving].'*100)
+td=[totaldur_HM;totaldur_OS;totaldur_stable;totaldur_moving].'*100;
+%T = table(td);
+% Assign column names
+column_names = {'HM', 'OS', 'Stable', 'Moving'};
+T = table(td(:, 1), td(:, 2), td(:, 3), td(:, 4), 'VariableNames', column_names);
+
+filename = 'TotalDurationStates_c3split_11states.xlsx';
+writetable(T,filename,'Sheet',1,'Range','A1:Z15')
+
+bar(td)
 L=legend('Homecage','OS','Stable','Moving');
 L.FontSize=14;
 % ylabel('Hours')
@@ -55,15 +72,16 @@ h.Children(3).FaceColor=[0 1 0.3];
 h.Children(2).FaceColor=[0 0 1];
 h.Children(1).FaceColor=[1 0.3 0];
 
+h.XTickLabel(end)={'Undetermined'}
 %printing_image('State total time (zoomed in)')
-ylim([0 10])
+%ylim([0 10])
 %% Total duration minus Homecage (TDMH)
 allscreen()
 tdmh=[totaldur_OS-totaldur_HM;totaldur_stable-totaldur_HM;totaldur_moving-totaldur_HM].'*100;
 bar(tdmh)
 T = table(tdmh);
-filename = 'TotalDurationMinusHC.xlsx';
-% writetable(T,filename,'Sheet',1,'Range','A1:Z15')
+filename = 'TotalDurationMinusHC_c3split_11states.xlsx';
+writetable(T,filename,'Sheet',1,'Range','A1:Z15')
 
 L=legend('OS-HC','Stable-HC','Moving-HC');
 L.FontSize=14;
@@ -91,8 +109,16 @@ boutcount_stable=(StateMetric_stable.bout_count)/sum(StateMetric_stable.bout_cou
 boutcount_moving=(StateMetric_moving.bout_count)/sum(StateMetric_moving.bout_count);
 
 allscreen()
+bc=[boutcount_HM;boutcount_OS;boutcount_stable;boutcount_moving].'*100;
+column_names = {'HM', 'OS', 'Stable', 'Moving'};
+T = table(bc(:, 1), bc(:, 2), bc(:, 3), bc(:, 4), 'VariableNames', column_names);
 
-bar([boutcount_HM;boutcount_OS;boutcount_stable;boutcount_moving].'*100)
+filename = 'BoutCount_c3split_11states.xlsx';
+writetable(T,filename,'Sheet',1,'Range','A1:Z15')
+
+
+bar(bc)
+
 L=legend('Homecage','OS','Stable','Moving');
 L.FontSize=14;
 % ylabel('Hours')
@@ -115,7 +141,7 @@ allscreen()
 bcmh=[boutcount_OS-boutcount_HM;boutcount_stable-boutcount_HM;boutcount_moving-boutcount_HM].'*100;
 bar(bcmh)
 T = table(bcmh);
-filename = 'BoutCountMinusHC.xlsx';
+filename = 'BoutCountMinusHC_c3split_11states.xlsx';
 writetable(T,filename,'Sheet',1,'Range','A1:Z15')
 
 L=legend('OS-HC','Stable-HC','Moving-HC');
