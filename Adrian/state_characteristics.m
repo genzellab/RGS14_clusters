@@ -21,6 +21,32 @@ fn=1000;
 [StateMetric_moving]=state_metrics(states_moving.hmm_postfit,num_states,Moving_total_duration/fn/60);
 
 xo
+%bout duration tables
+bd_table_HC=bout_duration_table(StateMetric_HC);
+bd_table_OS=bout_duration_table(StateMetric_OS);
+bd_table_stable=bout_duration_table(StateMetric_stable);
+bd_table_moving=bout_duration_table(StateMetric_moving);
+
+column_names = {'Mean duration (ms)', 'SD (ms)', 'Counts', 'Total duration (min)'};
+T = table(bd_table_HC(:, 1), bd_table_HC(:, 2), bd_table_HC(:, 3), bd_table_HC(:, 4), 'VariableNames', column_names);
+filename = 'DurationStatesBouts_c3split_11states.xlsx';
+writetable(T,filename,'Sheet','HC','Range','A1:Z15')
+
+column_names = {'Mean duration (ms)', 'SD (ms)', 'Counts', 'Total duration (min)'};
+T = table(bd_table_OS(:, 1), bd_table_OS(:, 2), bd_table_OS(:, 3), bd_table_OS(:, 4), 'VariableNames', column_names);
+filename = 'DurationStatesBouts_c3split_11states.xlsx';
+writetable(T,filename,'Sheet','OS','Range','A1:Z15')
+
+column_names = {'Mean duration (ms)', 'SD (ms)', 'Counts', 'Total duration (min)'};
+T = table(bd_table_stable(:, 1), bd_table_stable(:, 2), bd_table_stable(:, 3), bd_table_stable(:, 4), 'VariableNames', column_names);
+filename = 'DurationStatesBouts_c3split_11states.xlsx';
+writetable(T,filename,'Sheet','stable','Range','A1:Z15')
+
+column_names = {'Mean duration (ms)', 'SD (ms)', 'Counts', 'Total duration (min)'};
+T = table(bd_table_moving(:, 1), bd_table_moving(:, 2), bd_table_moving(:, 3), bd_table_moving(:, 4), 'VariableNames', column_names);
+filename = 'DurationStatesBouts_c3split_11states.xlsx';
+writetable(T,filename,'Sheet','moving','Range','A1:Z15')
+
 %Total duration.
 %state=1;
 
