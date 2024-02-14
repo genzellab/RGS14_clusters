@@ -13,7 +13,7 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
   
 - markov_studyday.m: Same as "prepare_markov_nontrial.m" but customized to used a pretrained HMM model on specific study days. Prerequisite for "state_characteristics.m".
 
-- state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions.
+- state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions. It generates data to be exported to excel and shared with Lisa.
   
 - [compute_tpm.m](https://github.com/genzellab/RGS14_clusters/blob/main/Adrian/compute_tpm.m): As the name suggests, it computes the transition probability matrix and displays the network in a similar fashion as the [Poe paper](https://doi.org/10.1073/pnas.212342711).  
 
