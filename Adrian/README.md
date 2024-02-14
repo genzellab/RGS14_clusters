@@ -12,6 +12,8 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - prepare_markov_nontrial_splitC3.m: Same as above but splits C3 in short and long. 
   
 - markov_studyday.m: Same as "prepare_markov_nontrial.m" but customized to used a pretrained HMM model on specific study days. Prerequisite for "state_characteristics.m".
+  
+- markov_studyday_splitC3.m: Same as above but adapted for the C3 split data. 
 
 - state_characteristics.m: Generates plots comparing state total time, number of state bouts and state bout duration between different OS conditions. It generates data to be exported to excel and shared with Lisa.
   
