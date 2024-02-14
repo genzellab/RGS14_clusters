@@ -1,3 +1,6 @@
+%% STATE_CHARACTERISTICS.
+% Computes % of time, number of bouts, etc of HMM states.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cd('/home/adrian/Documents/rgs_clusters_figs')
 num_states=11; %Number of states
 %     hmm_postfit(i_trial).sequence: array of dimension [4,nseq] where columns represent detected states (intervals with prob(state)>0.8), in the order they appear in trial
