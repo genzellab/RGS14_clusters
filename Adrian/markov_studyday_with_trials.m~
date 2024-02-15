@@ -105,14 +105,9 @@ doublet1_label=[];
 doublet2_label=[];
 end
 
-%Find ripples that follow c3short when c3short is the first ripple in a
-%doublet
 doublet1_c3short_ind=(doublet1_label==3);
-if sum(doublet1_c3short_ind)>0 % If there are first ripples in doublets being c3Short
-  doublet2_afterc3short=doublet2_label(doublet1_c3short_ind);
-else
-  doublet2_afterc3short=[];    
-end
+
+doublet1_label(doublet1_label==4)
 
 if ~isempty(M_multiplets.triplets{1})
 
@@ -135,7 +130,7 @@ length(doublet2_label) sum(doublet2_label==1) sum(doublet2_label==2) sum(doublet
 length(triplet1_label) sum(triplet1_label==1) sum(triplet1_label==2) sum(triplet1_label==3) sum(triplet1_label==4) ...
 length(triplet2_label) sum(triplet2_label==1) sum(triplet2_label==2) sum(triplet2_label==3) sum(triplet2_label==4) ...
 length(triplet3_label) sum(triplet3_label==1) sum(triplet3_label==2) sum(triplet3_label==3) sum(triplet3_label==4) ...
-length(highermultiplets) sum(doublet2_afterc3short==1) sum(doublet2_afterc3short==2) sum(doublet2_afterc3short==3) sum(doublet2_afterc3short==4)];
+length(highermultiplets)];
     newRow = [ table({(ConditionField{j})}, 'VariableNames', {'Condition'}) ,table({(RatField{k})}, 'VariableNames', {'RatID'}) ,table({(Trialname{l})}, 'VariableNames', {'Trial'}),array2table(vec)];
     tableData = [tableData; newRow];
     
@@ -145,6 +140,5 @@ length(highermultiplets) sum(doublet2_afterc3short==1) sum(doublet2_afterc3short
 end
 
 cd('/home/adrian/Documents/rgs_clusters_figs')
-% filename = 'multipletdata_v1_29012024.xlsx';
-filename = 'multipletdata_v2_14022024.xlsx';
+filename = 'multipletdata_v1_29012024.xlsx';
 writetable(tableData,filename,'Sheet',1)
