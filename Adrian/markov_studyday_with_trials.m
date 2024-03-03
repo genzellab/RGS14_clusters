@@ -114,6 +114,7 @@ else
   doublet2_afterc3short=[];    
 end
 
+
 if ~isempty(M_multiplets.triplets{1})
 
 triplet1=M_multiplets.triplets{1}(:,1);
@@ -127,7 +128,134 @@ triplet1_label=[];
 triplet2_label=[];
 triplet3_label=[];
 end
+%Find ripples that follow c3short when c3short is the first ripple in a
+%triplet
+triplet1_c3short_ind=(triplet1_label==3);
+if sum(triplet1_c3short_ind)>0 % If there are first ripples in triplets being c3Short
+  triplet2_afterc3short=triplet2_label(triplet1_c3short_ind);
+  triplet3_afterc3short=triplet3_label(triplet1_c3short_ind);  
+else
+  triplet2_afterc3short=[];    
+  triplet3_afterc3short=[];    
+end
+
+
 highermultiplets=[M_multiplets.quatruplets{1}(:); M_multiplets.pentuplets{1}(:); M_multiplets.sextuplets{1}(:); M_multiplets.septuplets{1}(:); M_multiplets.octuplets{1}(:); M_multiplets.nonuplets{1}(:)];
+if ~isempty(highermultiplets) % in case there are multiplets
+
+ if ~isempty(M_multiplets.quatruplets{1})
+    quatruplet1=M_multiplets.quatruplets{1}(:,1);
+    quatruplet1_label=label(ismember(combined, quatruplet1));    
+    quatruplet2=M_multiplets.quatruplets{1}(:,2);
+    quatruplet2_label=label(ismember(combined, quatruplet2));
+    quatruplet3=M_multiplets.quatruplets{1}(:,3);
+    quatruplet3_label=label(ismember(combined, quatruplet3));
+    [quatruplet2_afterc3short,quatruplet3_afterc3short]=ripple_after_c3short(quatruplet1_label,quatruplet2_label,quatruplet3_label);   
+    
+ else
+     quatruplet1_label=[];
+     quatruplet2_label=[];
+     quatruplet3_label=[];
+     quatruplet2_afterc3short=[];
+     quatruplet3_afterc3short=[];
+ end
+ 
+ if ~isempty(M_multiplets.pentuplets{1})
+    pentuplet1=M_multiplets.pentuplets{1}(:,1);
+    pentuplet1_label=label(ismember(combined, pentuplet1));
+    pentuplet2=M_multiplets.pentuplets{1}(:,2);
+    pentuplet2_label=label(ismember(combined, pentuplet2));
+    pentuplet3=M_multiplets.pentuplets{1}(:,3);
+    pentuplet3_label=label(ismember(combined, pentuplet3));
+[pentuplet2_afterc3short,pentuplet3_afterc3short]=ripple_after_c3short(pentuplet1_label,pentuplet2_label,pentuplet3_label);    
+    
+ else
+     pentuplet1_label=[];     
+     pentuplet2_label=[];
+     pentuplet3_label=[];
+     pentuplet2_afterc3short=[];
+     pentuplet3_afterc3short=[];
+ end
+
+ if ~isempty(M_multiplets.sextuplets{1})
+    sextuplet1=M_multiplets.sextuplets{1}(:,1);
+    sextuplet1_label=label(ismember(combined, sextuplet1));
+    sextuplet2=M_multiplets.sextuplets{1}(:,2);
+    sextuplet2_label=label(ismember(combined, sextuplet2));
+    sextuplet3=M_multiplets.sextuplets{1}(:,3);
+    sextuplet3_label=label(ismember(combined, sextuplet3));
+[sextuplet2_afterc3short,sextuplet3_afterc3short]=ripple_after_c3short(sextuplet1_label,sextuplet2_label,sextuplet3_label);        
+ else
+     sextuplet1_label=[];     
+     sextuplet2_label=[];
+     sextuplet3_label=[];
+     sextuplet2_afterc3short=[];
+     sextuplet3_afterc3short=[];
+ end
+ 
+ if ~isempty(M_multiplets.septuplets{1})
+    septuplet1=M_multiplets.septuplets{1}(:,1);
+    septuplet1_label=label(ismember(combined, septuplet1));     
+    septuplet2=M_multiplets.septuplets{1}(:,2);
+    septuplet2_label=label(ismember(combined, septuplet2));
+    septuplet3=M_multiplets.septuplets{1}(:,3);
+    septuplet3_label=label(ismember(combined, septuplet3));
+[septuplet2_afterc3short,septuplet3_afterc3short]=ripple_after_c3short(septuplet1_label,septuplet2_label,septuplet3_label);        
+ else
+    septuplet1_label=[]; 
+    septuplet2_label=[];
+    septuplet3_label=[];
+    septuplet2_afterc3short=[];
+    septuplet3_afterc3short=[];
+ end
+   
+ if ~isempty(M_multiplets.octuplets{1})
+    octuplet1=M_multiplets.octuplets{1}(:,1);
+    octuplet1_label=label(ismember(combined, octuplet1));
+    octuplet2=M_multiplets.octuplets{1}(:,2);
+    octuplet2_label=label(ismember(combined, octuplet2));
+    octuplet3=M_multiplets.octuplets{1}(:,3);
+    octuplet3_label=label(ismember(combined, octuplet3));
+    [octuplet2_afterc3short,octuplet3_afterc3short]=ripple_after_c3short(octuplet1_label,octuplet2_label,octuplet3_label);    
+ else
+     octuplet1_label=[];     
+     octuplet2_label=[];
+     octuplet3_label=[];
+     octuplet2_afterc3short=[];
+     octuplet3_afterc3short=[];
+ end
+ 
+ if ~isempty(M_multiplets.nonuplets{1})
+    nonuplet1=M_multiplets.nonuplets{1}(:,1);
+    nonuplet1_label=label(ismember(combined, nonuplet1));  
+    nonuplet2=M_multiplets.nonuplets{1}(:,2);
+    nonuplet2_label=label(ismember(combined, nonuplet2));
+    nonuplet3=M_multiplets.nonuplets{1}(:,3);
+    nonuplet3_label=label(ismember(combined, nonuplet3));
+    [nonuplet2_afterc3short,nonuplet3_afterc3short]=ripple_after_c3short(nonuplet1_label,nonuplet2_label,nonuplet3_label);    
+ else
+     nonuplet1_label=[];
+     nonuplet2_label=[];
+     nonuplet3_label=[];
+     nonuplet2_afterc3short=[];
+     nonuplet3_afterc3short=[];
+ end
+ 
+%  multiplet1_label=[quatruplet1_label pentuplet1_label sextuplet1_label septuplet1_label octuplet1_label nonuplet1_label]
+%  multiplet2_label=[quatruplet2_label pentuplet2_label sextuplet2_label septuplet2_label octuplet2_label nonuplet2_label];
+%  multiplet3_label=[quatruplet3_label pentuplet3_label sextuplet3_label septuplet3_label octuplet3_label nonuplet3_label];
+
+ multiplet2_afterc3short=[quatruplet2_afterc3short pentuplet2_afterc3short sextuplet2_afterc3short septuplet2_afterc3short octuplet2_afterc3short nonuplet2_afterc3short];
+ multiplet3_afterc3short=[quatruplet3_afterc3short pentuplet3_afterc3short sextuplet3_afterc3short septuplet3_afterc3short octuplet3_afterc3short nonuplet3_afterc3short];
+
+else 
+%  multiplet1_label=[];    
+%  multiplet2_label=[];
+%  multiplet3_label=[];
+ multiplet2_afterc3short=[];
+ multiplet3_afterc3short=[];
+    
+end
 
 vec=[length(combined) length(c1) length(c2) length(c3Short) length(c3Long) length(singlets_label) sum(singlets_label==1) sum(singlets_label==2) sum(singlets_label==3) sum(singlets_label==4)...
 length(doublet1_label) sum(doublet1_label==1) sum(doublet1_label==2) sum(doublet1_label==3) sum(doublet1_label==4)...
@@ -135,7 +263,11 @@ length(doublet2_label) sum(doublet2_label==1) sum(doublet2_label==2) sum(doublet
 length(triplet1_label) sum(triplet1_label==1) sum(triplet1_label==2) sum(triplet1_label==3) sum(triplet1_label==4) ...
 length(triplet2_label) sum(triplet2_label==1) sum(triplet2_label==2) sum(triplet2_label==3) sum(triplet2_label==4) ...
 length(triplet3_label) sum(triplet3_label==1) sum(triplet3_label==2) sum(triplet3_label==3) sum(triplet3_label==4) ...
-length(highermultiplets) sum(doublet2_afterc3short==1) sum(doublet2_afterc3short==2) sum(doublet2_afterc3short==3) sum(doublet2_afterc3short==4)];
+length(highermultiplets) sum(doublet2_afterc3short==1) sum(doublet2_afterc3short==2) sum(doublet2_afterc3short==3) sum(doublet2_afterc3short==4)...
+sum(triplet2_afterc3short==1) sum(triplet2_afterc3short==2) sum(triplet2_afterc3short==3) sum(triplet2_afterc3short==4)...
+sum(triplet3_afterc3short==1) sum(triplet3_afterc3short==2) sum(triplet3_afterc3short==3) sum(triplet3_afterc3short==4)...
+sum(multiplet2_afterc3short==1) sum(multiplet2_afterc3short==2) sum(multiplet2_afterc3short==3) sum(multiplet2_afterc3short==4)...
+sum(multiplet3_afterc3short==1) sum(multiplet3_afterc3short==2) sum(multiplet3_afterc3short==3) sum(multiplet3_afterc3short==4)];
     newRow = [ table({(ConditionField{j})}, 'VariableNames', {'Condition'}) ,table({(RatField{k})}, 'VariableNames', {'RatID'}) ,table({(Trialname{l})}, 'VariableNames', {'Trial'}),array2table(vec)];
     tableData = [tableData; newRow];
     
@@ -143,8 +275,8 @@ length(highermultiplets) sum(doublet2_afterc3short==1) sum(doublet2_afterc3short
         
     end
 end
-
+xo
 cd('/home/adrian/Documents/rgs_clusters_figs')
 % filename = 'multipletdata_v1_29012024.xlsx';
-filename = 'multipletdata_v2_14022024.xlsx';
+filename = 'multipletdata_v3_16022024.xlsx';
 writetable(tableData,filename,'Sheet',1)
