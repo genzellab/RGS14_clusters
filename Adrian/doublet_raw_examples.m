@@ -185,7 +185,11 @@ cd('/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/Milan_DA/RGS14_Ephys_da/D
 cd(num2str(veh_rats(l)))
 cd(g{k})
 gtf=getfolder()
-cd(gtf{j})
+if j>=6
+    cd(gtf{6})
+else
+    cd(gtf{j})
+end
 files = dir;
 files={files.name};
 files=files(cellfun(@(x) contains(x,'HPC'),files  )); 
@@ -205,8 +209,11 @@ if isempty(c3s_doublet)
 end
 c2_all=[ripple_c2{:,2}];
 %%
-combined=[c2_all c3s_all];
-label=[ones(size(c2_all))*2 ones(size(c3s_all))*3];
+c2_all=c2_all.';
+c3s_all=c3s_all.';
+
+combined=[c2_all; c3s_all];
+label=[ones(size(c2_all))*2 ;ones(size(c3s_all))*3];
 [combined, id]=sort(combined);
 label=label(id);
 [M_multiplets, Mx_multiplets]=findmultiplets(combined);
@@ -220,23 +227,62 @@ doublet1_label=[];
 doublet2_label=[];
 end
 
+%Find ripples that follow c3short when c3short is the first ripple in a
+%doublet
+doublet1_c3short_ind=(doublet1_label==3);
+if sum(doublet1_c3short_ind)>0 % If there are first ripples in doublets being c3Short
+  doublet2_afterc3short=doublet2_label(doublet1_c3short_ind);
+else
+  doublet2_afterc3short=[];    
+end
+
+if ismember([2],doublet2_afterc3short)
+  'doublet found'
+else
+    'no doublet found'
+    continue
+end
 %%
+rfirst=doublet1(doublet1_c3short_ind);
+rsecond=doublet2(doublet1_c3short_ind);
+[num2str(length(rfirst)) ' events']
+%xo
+%% C3_SHORT-C2
 close all
 allscreen()
-n=1;
+n=20;
 plot([0:length(hpc_trace)-1]/fn,hpc_trace.*(0.195),'Color',[0 0 0])
 hold on
-stemmer(c3s_all,6000.*(0.195))
-stemmer(c3s_all(c3s_doublet(n)),7000.*(0.195))
+stemmer(rfirst,6000.*(0.195))
+stemmer(rsecond,7000.*(0.195))
 xlabel('seconds')
 ylabel('uV')
 ylim([-300 700])
-%xlim([c3s_all(c3s_doublet(n))-0.30 c3s_all(c3s_doublet(n))+0.30])
- xlim([c3s_all(c3s_doublet(n))-0.20 c3s_all(c3s_doublet(n))+0.300])
+
+xlim([rfirst(n)-0.20 rsecond(n)+0.300])
 fi=gca; 
-fi.XTick=[fi.XTick(1):0.025:fi.XTick(end)]
+fi.XTick=[fi.XTick(1):0.05:fi.XTick(end)]
 fi.FontSize=12;
 fi.Children(2).ShowBaseLine="off";
+%%
+
+% %% C3_SHORT-C3_SHORT
+% close all
+% allscreen()
+% n=1;
+% plot([0:length(hpc_trace)-1]/fn,hpc_trace.*(0.195),'Color',[0 0 0])
+% hold on
+% stemmer(c3s_all,6000.*(0.195))
+% stemmer(c3s_all(c3s_doublet(n)),7000.*(0.195))
+% xlabel('seconds')
+% ylabel('uV')
+% ylim([-300 700])
+% %xlim([c3s_all(c3s_doublet(n))-0.30 c3s_all(c3s_doublet(n))+0.30])
+%  xlim([c3s_all(c3s_doublet(n))-0.20 c3s_all(c3s_doublet(n))+0.300])
+% fi=gca; 
+% fi.XTick=[fi.XTick(1):0.025:fi.XTick(end)]
+% fi.FontSize=12;
+% fi.Children(2).ShowBaseLine="off";
 %%
 prompt = "Do you want more? Y/N [Y]: ";
 txt = input(prompt,"s");
@@ -485,7 +531,7 @@ clear x x_duration x_end x_endLong x_endShort x_Long x_peak x_peakLong x_peakSho
 end
 
  
-%xo 
+xo 
 %trial_durations(k,:)=[cellfun('length',Bout_delta) sum(cellfun('length',Bout_delta))];
 %trial_durations.(['Rat' num2str(veh_rats(l))]).(ConditionString)=[cellfun('length',Bout_delta) sum(cellfun('length',Bout_delta))];
 trial_durations.(ConditionString).(['Rat' num2str(veh_rats(l))])=[cellfun('length',Bout_delta) sum(cellfun('length',Bout_delta))];
