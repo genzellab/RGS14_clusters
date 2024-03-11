@@ -112,83 +112,86 @@ text(1:numel(lag_variables), values, num2str(values', '%.4f'), ...
     'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
  %ylim([3.1 3.3])
 %% (COMPLETE) Plots normalized histograms and custumized kernel density estimate.
-nbin=10;%100;
+%nbin=10;%100;
 ylimval=.3%0.08;
 pts = linspace(lagLimLow,lagLim*1000,1000);
 allscreen()
+bw=70;
+labelheight=0.25;
+nbin=[lagLimLow: 0.045:lagLim]*1000;
 
 subplot(4,4,1)
-hisfit_custom(pts,nbin,lag_c1c1)
+hisfit_custom(pts,nbin,lag_c1c1,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c1-c1')
 ylabel('Proportion of events')
 subplot(4,4,2)
-hisfit_custom(pts,nbin,lag_c1c2)
+hisfit_custom(pts,nbin,lag_c1c2,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c1-c2')
 subplot(4,4,3)
-hisfit_custom(pts,nbin,lag_c1c3Short)
+hisfit_custom(pts,nbin,lag_c1c3Short,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c1-c3Short')
 subplot(4,4,4)
-hisfit_custom(pts,nbin,lag_c1c3Long)
+hisfit_custom(pts,nbin,lag_c1c3Long,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c1-c3Long')
 
 subplot(4,4,5)
-hisfit_custom(pts,nbin,lag_c2c1)
+hisfit_custom(pts,nbin,lag_c2c1,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c2-c1')
 ylabel('Proportion of events')
 subplot(4,4,6)
-hisfit_custom(pts,nbin,lag_c2c2)
+hisfit_custom(pts,nbin,lag_c2c2,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c2-c2')
 
 subplot(4,4,7)
-hisfit_custom(pts,nbin,lag_c2c3Short)
+hisfit_custom(pts,nbin,lag_c2c3Short,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c2-c3Short')
 subplot(4,4,8)
-hisfit_custom(pts,nbin,lag_c2c3Long)
+hisfit_custom(pts,nbin,lag_c2c3Long,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c2-c3Long')
 
 subplot(4,4,9)
-hisfit_custom(pts,nbin,lag_c3Shortc1)
+hisfit_custom(pts,nbin,lag_c3Shortc1,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Short-c1')
 ylabel('Proportion of events')
 
 subplot(4,4,10)
-hisfit_custom(pts,nbin,lag_c3Shortc2)
+hisfit_custom(pts,nbin,lag_c3Shortc2,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Short-c2')
 
 subplot(4,4,11)
-hisfit_custom(pts,nbin,lag_c3Shortc3Short)
+hisfit_custom(pts,nbin,lag_c3Shortc3Short,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Short-c3Short')
 
 subplot(4,4,12)
-hisfit_custom(pts,nbin,lag_c3Shortc3Long)
+hisfit_custom(pts,nbin,lag_c3Shortc3Long,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Short-c3Long')
 
 subplot(4,4,13)
-hisfit_custom(pts,nbin,lag_c3Longc1)
+hisfit_custom(pts,nbin,lag_c3Longc1,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Long-c1')
@@ -196,26 +199,29 @@ xlabel('Interripple Interval (ms)')
 ylabel('Proportion of events')
 
 subplot(4,4,14)
-hisfit_custom(pts,nbin,lag_c3Longc2)
+hisfit_custom(pts,nbin,lag_c3Longc2,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Long-c2')
 xlabel('Interripple Interval (ms)')
 
 subplot(4,4,15)
-hisfit_custom(pts,nbin,lag_c3Longc3Short)
+hisfit_custom(pts,nbin,lag_c3Longc3Short,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Long-c3Short')
 xlabel('Interripple Interval (ms)')
 
 subplot(4,4,16)
-hisfit_custom(pts,nbin,lag_c3Longc3Long)
+hisfit_custom(pts,nbin,lag_c3Longc3Long,bw,labelheight)
 xlim([lagLimLow lagLim]*1000)
 ylim([0 ylimval])
 title('c3Long-c3Long')
 xlabel('Interripple Interval (ms)')
 
+% figparam=gca;
+% figparam.FontSize=13;
+set(findall(gcf,'-property','FontSize'),'FontSize',13)
 %% Plots normalized histograms and custumized kernel density estimate.
 nbin=100;
 ylimval=0.08;
