@@ -2,6 +2,8 @@
 % OUTPUT h=figure handle
 
 function [i2,colshade]=fun_HMMRasterplot_lowerhalf(DATA,HmmParam,PlotParam,LegendNew)
+%i2 is an index obtained after sorting the states firing rates in a
+%descending manner. Colshade is their corresponding color.
 allscreen() %If this gives you an error it means that ADRITOOLS is not in your path. 
 % VARIABLES
 %     figure(1); 
