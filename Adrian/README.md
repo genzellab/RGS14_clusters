@@ -3,15 +3,15 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 
 - ~~prepare_markov.m~~: Function created to test the analysis using a single study day. It preprocesses the data of a NREM bout and displays it. Continue the analysis running 'demo2_HMM_Simple.m'. __Discontinued__, rather use the "nontrial" versions. In this case, the "nontrial" tag refers to the original trial-based arrangement from the Mazzulab scripts which don't apply to our data.  
 
-- veh_rgs_data_for_hmm.mat: Structure which contains all data needed for HMM analysis from Vehicle study days of the RGS14 project. Generated from 'prepare_markov_nontrial.m'. The C3 split in short and long was not performed for this data. 
+- ~~prepare_markov_nontrial.m~~: Generates the spikes and spikes_peak structs in the format needed for the hmm analysis. This includes all vehicle data, which is needed for training the HMM model.
+  
+- prepare_markov_nontrial_splitC3.m: Same as above but splits C3 in short and long.
+  
+- ~~veh_rgs_data_for_hmm.mat~~: Structure which contains all data needed for HMM analysis from Vehicle study days of the RGS14 project. Generated from 'prepare_markov_nontrial.m'. The C3 split in short and long was not performed for this data. 
 
 - veh_data_hmm_c3split.mat: Same as above but splitting C3 in short and long. 
-
-- prepare_markov_nontrial.m: Generates the spikes and spikes_peak structs in the format needed for the hmm analysis. This includes all vehicle data, which is needed for training the HMM model.
   
-- prepare_markov_nontrial_splitC3.m: Same as above but splits C3 in short and long. 
-  
-- markov_studyday.m: Same as "prepare_markov_nontrial.m" but customized to used a pretrained HMM model on specific study days. Prerequisite for "state_characteristics.m".
+- ~~markov_studyday.m~~: Same as "prepare_markov_nontrial.m" but customized to used a pretrained HMM model on specific study days. Prerequisite for "state_characteristics.m".
   
 - markov_studyday_splitC3.m: Same as above but adapted for the C3 split data. 
 
