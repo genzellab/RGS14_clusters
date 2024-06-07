@@ -3,7 +3,8 @@ clear variables
 addpath(genpath('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian'))
 % cd('/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/RGSfiles_ForAdrian')
 cd('/home/adrian/Documents/GitHub/RGS14_clusters/Adrian')
-load('veh_data_hmm_c3split_with_trials.mat')
+% load('veh_data_hmm_c3split_with_trials.mat')
+load('veh_data_hmm_c3split_with_trials_v2_27052024.mat')
 %% Select condition(s) and rat(s).
 ConditionField=[ {'OD' } %Object space Conditions.
      {'CON'}
@@ -278,5 +279,7 @@ end
 xo
 cd('/home/adrian/Documents/rgs_clusters_figs')
 % filename = 'multipletdata_v1_29012024.xlsx';
-filename = 'multipletdata_v3_16022024.xlsx';
+%filename = 'multipletdata_v3_16022024.xlsx';
+filename = 'multipletdata_v4_28052024_test.xlsx';
+
 writetable(tableData,filename,'Sheet',1)

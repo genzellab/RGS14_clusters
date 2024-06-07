@@ -1,5 +1,9 @@
-function [concatenatedData,length_concatenatedData] = extractSpecificData_with_trials(structData,ConditionField,RatField,Trialname,fn)
-    concatenatedData = [];
+function [concatenatedData_timestamps,length_concatenatedData,concatenatedData] = extractSpecificData_with_trials(structData,ConditionField,RatField,Trialname,fn)
+%concatenatedData includes all samples, with values 1 or 0 depending if
+%oscillation was active.
+%length_concatenatedData (measured length from variable above)
+%
+concatenatedData = [];
     
     % Iterate over each field in the struct
 % fields=    [ {'OD' } %Object space Conditions.
@@ -27,5 +31,5 @@ function [concatenatedData,length_concatenatedData] = extractSpecificData_with_t
     down_samp=1;
 %     concatenatedData=downsample(concatenatedData,down_samp);
     length_concatenatedData=length(concatenatedData);
-    concatenatedData=find(concatenatedData)/(fn/down_samp);
+    concatenatedData_timestamps=find(concatenatedData)/(fn/down_samp);
 end

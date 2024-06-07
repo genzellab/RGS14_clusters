@@ -344,19 +344,6 @@ delta_end=delta{i,2};
 delta_hpc_start=delta_hpc{i,1};
 delta_hpc_end=delta_hpc{i,2};
 
-
-
-[bout_ripple_c1]=get_ticks(bout_time,bout_ripple_c1,ripple_c1_start, ripple_c1_end,i,fn);
-[bout_ripple_c2]=get_ticks(bout_time,bout_ripple_c2,ripple_c2_start, ripple_c2_end,i,fn);
-[bout_ripple_c3Short]=get_ticks(bout_time,bout_ripple_c3Short,ripple_c3Short_start, ripple_c3Short_end,i,fn);
-[bout_ripple_c3Long]=get_ticks(bout_time,bout_ripple_c3Long,ripple_c3Long_start, ripple_c3Long_end,i,fn);
-
-[bout_spindle]=get_ticks(bout_time,bout_spindle,spindles_start, spindles_end,i,fn);
-[bout_spindles_hpc]=get_ticks(bout_time,bout_spindles_hpc,spindles_hpc_start, spindles_hpc_end,i,fn);
-[bout_delta]=get_ticks(bout_time,bout_delta,delta_start, delta_end,i,fn);
-[bout_delta_hpc]=get_ticks(bout_time,bout_delta_hpc,delta_hpc_start, delta_hpc_end,i,fn);
-
-
 %Get peak
 ripple_c1_peak=ripple_c1{i,2};
 ripple_c2_peak=ripple_c2{i,2};
@@ -367,16 +354,47 @@ spindles_peak=spindles{i,3};
 spindles_hpc_peak=spindles_hpc{i,3};
 delta_peak=delta{i,3};
 delta_hpc_peak=delta_hpc{i,3};
+%Get ticks
 
-[pbout_ripple_c1]=get_ticks_peak(bout_time,pbout_ripple_c1,ripple_c1_peak,i,fn);
-[pbout_ripple_c2]=get_ticks_peak(bout_time,pbout_ripple_c2,ripple_c2_peak,i,fn);
-[pbout_ripple_c3Short]=get_ticks_peak(bout_time,pbout_ripple_c3Short,ripple_c3Short_peak,i,fn);
-[pbout_ripple_c3Long]=get_ticks_peak(bout_time,pbout_ripple_c3Long,ripple_c3Long_peak,i,fn);
+% [bout_ripple_c1]=get_ticks(bout_time,bout_ripple_c1,ripple_c1_start, ripple_c1_end,ripple_c1_peak,i,fn);
+% [bout_ripple_c2]=get_ticks(bout_time,bout_ripple_c2,ripple_c2_start, ripple_c2_end,i,fn);
+% [bout_ripple_c3Short]=get_ticks(bout_time,bout_ripple_c3Short,ripple_c3Short_start, ripple_c3Short_end,i,fn);
+% [bout_ripple_c3Long]=get_ticks(bout_time,bout_ripple_c3Long,ripple_c3Long_start, ripple_c3Long_end,i,fn);
+% 
+% [bout_spindle]=get_ticks(bout_time,bout_spindle,spindles_start, spindles_end,i,fn);
+% [bout_spindles_hpc]=get_ticks(bout_time,bout_spindles_hpc,spindles_hpc_start, spindles_hpc_end,i,fn);
+% [bout_delta]=get_ticks(bout_time,bout_delta,delta_start, delta_end,i,fn);
+% [bout_delta_hpc]=get_ticks(bout_time,bout_delta_hpc,delta_hpc_start, delta_hpc_end,i,fn);
+[bout_ripple_c1, ripple_c1_peak] = get_ticks(bout_time, bout_ripple_c1, ripple_c1_start, ripple_c1_end, ripple_c1_peak, i, fn);
+[bout_ripple_c2, ripple_c2_peak] = get_ticks(bout_time, bout_ripple_c2, ripple_c2_start, ripple_c2_end, ripple_c2_peak, i, fn);
+[bout_ripple_c3Short, ripple_c3Short_peak] = get_ticks(bout_time, bout_ripple_c3Short, ripple_c3Short_start, ripple_c3Short_end, ripple_c3Short_peak, i, fn);
+[bout_ripple_c3Long, ripple_c3Long_peak] = get_ticks(bout_time, bout_ripple_c3Long, ripple_c3Long_start, ripple_c3Long_end, ripple_c3Long_peak, i, fn);
 
-[pbout_spindle]=get_ticks_peak(bout_time,pbout_spindle,spindles_peak,i,fn);
-[pbout_spindles_hpc]=get_ticks_peak(bout_time,pbout_spindles_hpc,spindles_hpc_peak,i,fn);
-[pbout_delta]=get_ticks_peak(bout_time,pbout_delta,delta_peak,i,fn);
-[pbout_delta_hpc]=get_ticks_peak(bout_time,pbout_delta_hpc,delta_hpc_peak,i,fn);
+[bout_spindle, spindles_peak] = get_ticks(bout_time, bout_spindle, spindles_start, spindles_end, spindles_peak, i, fn);
+[bout_spindles_hpc, spindles_hpc_peak] = get_ticks(bout_time, bout_spindles_hpc, spindles_hpc_start, spindles_hpc_end, spindles_hpc_peak, i, fn);
+[bout_delta, delta_peak] = get_ticks(bout_time, bout_delta, delta_start, delta_end, delta_peak, i, fn);
+[bout_delta_hpc, delta_hpc_peak] = get_ticks(bout_time, bout_delta_hpc, delta_hpc_start, delta_hpc_end, delta_hpc_peak, i, fn);
+
+
+
+% [pbout_ripple_c1]=get_ticks_peak(bout_time,pbout_ripple_c1,ripple_c1_peak,bout_ripple_c1,i,fn);
+% [pbout_ripple_c2]=get_ticks_peak(bout_time,pbout_ripple_c2,ripple_c2_peak,i,fn);
+% [pbout_ripple_c3Short]=get_ticks_peak(bout_time,pbout_ripple_c3Short,ripple_c3Short_peak,i,fn);
+% [pbout_ripple_c3Long]=get_ticks_peak(bout_time,pbout_ripple_c3Long,ripple_c3Long_peak,i,fn);
+% 
+% [pbout_spindle]=get_ticks_peak(bout_time,pbout_spindle,spindles_peak,i,fn);
+% [pbout_spindles_hpc]=get_ticks_peak(bout_time,pbout_spindles_hpc,spindles_hpc_peak,i,fn);
+% [pbout_delta]=get_ticks_peak(bout_time,pbout_delta,delta_peak,i,fn);
+% [pbout_delta_hpc]=get_ticks_peak(bout_time,pbout_delta_hpc,delta_hpc_peak,i,fn);
+[pbout_ripple_c1] = get_ticks_peak(bout_time, pbout_ripple_c1, ripple_c1_peak, bout_ripple_c1, i, fn);
+[pbout_ripple_c2] = get_ticks_peak(bout_time, pbout_ripple_c2, ripple_c2_peak, bout_ripple_c2, i, fn);
+[pbout_ripple_c3Short] = get_ticks_peak(bout_time, pbout_ripple_c3Short, ripple_c3Short_peak, bout_ripple_c3Short, i, fn);
+[pbout_ripple_c3Long] = get_ticks_peak(bout_time, pbout_ripple_c3Long, ripple_c3Long_peak, bout_ripple_c3Long, i, fn);
+
+[pbout_spindle] = get_ticks_peak(bout_time, pbout_spindle, spindles_peak, bout_spindle, i, fn);
+[pbout_spindles_hpc] = get_ticks_peak(bout_time, pbout_spindles_hpc, spindles_hpc_peak, bout_spindles_hpc, i, fn);
+[pbout_delta] = get_ticks_peak(bout_time, pbout_delta, delta_peak, bout_delta, i, fn);
+[pbout_delta_hpc] = get_ticks_peak(bout_time, pbout_delta_hpc, delta_hpc_peak, bout_delta_hpc, i, fn);
 
 
 clear ripple_c1_peak ripple_c2_peak ripple_c3Short_peak ripple_c3Long_peak spindles_peak spindles_hpc_peak delta_peak delta_hpc_peak
