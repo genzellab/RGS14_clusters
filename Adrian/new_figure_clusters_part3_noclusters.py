@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep 23 05:25:33 2024
+Created on Wed Oct  2 04:24:27 2024
 
 @author: adrian
 """
@@ -35,7 +35,7 @@ fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
 
 # List of colormaps for each cluster
-cmaps = ['viridis', 'plasma', 'inferno'] #plasma cividis
+cmaps = ['inferno'] #, 'plasma', 'inferno',plasma cividis
 #cmaps = ['Blues', 'Greens', 'RdPu'] #plasma cividis
 # 3,4,2,1
 
@@ -72,6 +72,12 @@ x_downsampled = x_axis4[indices]
 y_downsampled = y_axis4[indices]
 z_downsampled = z_axis4[indices]
 
+# Combine clusters 1,2 and 3. Amount of ripples per cluster is similar.
+x = np.concatenate((x_axis1, x_axis3,x_downsampled), axis=0)
+y = np.concatenate((y_axis1, y_axis3,y_downsampled), axis=0)
+z = np.concatenate((z_axis1, z_axis3,z_downsampled), axis=0)
+
+
 # # Plot all clusters on the same figure
 # sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, custom_cmps[0], ax)
 # sc2 = plot_cluster(x_axis2, y_axis2, z_axis2, custom_cmps[1], ax)
@@ -82,9 +88,6 @@ z_downsampled = z_axis4[indices]
 # Plot all clusters on the same figure
 sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, cmaps[0], ax) # Cluster 3
 sc2 = plot_cluster_noKDE(x_axis2, y_axis2, z_axis2,  ax) #Cluster 4
-sc3 = plot_cluster(x_axis3, y_axis3, z_axis3, cmaps[1], ax) # Cluster 2
-#sc4 = plot_cluster(x_axis4, y_axis4, z_axis4, cmaps[3], ax) # Cluster 1
-sc4 = plot_cluster(x_downsampled, y_downsampled, z_downsampled, cmaps[2], ax)
 
 
 # Customize plot
@@ -98,12 +101,12 @@ ax.set_ylim(-10,10)
 ##ax.set_zlim(0,10)
 
 # Add colorbars for each cluster
-fig.colorbar(sc1, ax=ax, label='KDE Cluster 3')
+fig.colorbar(sc1, ax=ax, label='KDE All ripples')
 #fig.colorbar(sc2, ax=ax, label='KDE Cluster 4')
-fig.colorbar(sc3, ax=ax, label='KDE Cluster 2')
-fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
+#fig.colorbar(sc3, ax=ax, label='KDE Cluster 2')
+#fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
 
-ax.view_init(azim=180)
+ax.view_init(azim=180,elev=60)
 
 #%%
 
