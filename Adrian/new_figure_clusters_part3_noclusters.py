@@ -30,9 +30,9 @@ x_axis4 = x_axis4[~np.isnan(x_axis4)]
 y_axis4 = y_axis4[~np.isnan(y_axis4)]
 z_axis4 = z_axis4[~np.isnan(z_axis4)]
 
-# Set up figure and 3D axis
-fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot(111, projection='3d')
+# # Set up figure and 3D axis
+# fig = plt.figure(figsize=(10, 8))
+# ax = fig.add_subplot(111, projection='3d')
 
 # List of colormaps for each cluster
 cmaps = ['inferno'] #, 'plasma', 'inferno',plasma cividis
@@ -96,9 +96,13 @@ ax.set_xlabel('PCA1')
 ax.set_ylabel('PCA2')
 ax.set_zlabel('PCA3')
 
-ax.set_xlim(-20,20)
+#Original limits
+#ax.set_xlim(-20,20)
+#ax.set_ylim(-10,10)
+ax.set_xlim(-10,40)
 ax.set_ylim(-10,10)
-##ax.set_zlim(0,10)
+ax.set_zlim(-7.770710858935466, 20)
+
 
 # Add colorbars for each cluster
 fig.colorbar(sc1, ax=ax, label='KDE All ripples')
@@ -106,7 +110,35 @@ fig.colorbar(sc1, ax=ax, label='KDE All ripples')
 #fig.colorbar(sc3, ax=ax, label='KDE Cluster 2')
 #fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
 
-ax.view_init(azim=180,elev=60)
+ax.view_init(azim=180,elev=20)
+#%%
+# Extracting axes limits
+ax = plt.gca()  # Get current axes
+x_limits = ax.get_xlim()
+y_limits = ax.get_ylim()
+# For 3D plots, you can use:
+z_limits = ax.get_zlim()
+
+print(f"X-axis limits: {x_limits}")
+print(f"Y-axis limits: {y_limits}")
+print(f"Z-axis limits: {z_limits}")  # Uncomment for 3D plots
+
+#Results: 
+#X-axis limits: (-20.0, 20.0)
+#Y-axis limits: (-10.0, 10.0)
+#Z-axis limits: (-7.770710858935466, 40.343752044102914)
+
+#%%
+# Extract font size
+x_label_fontsize = ax.xaxis.label.get_size()
+y_label_fontsize = ax.yaxis.label.get_size()
+# For 3D plots:
+z_label_fontsize = ax.zaxis.label.get_size()
+
+print(f"X-axis label font size: {x_label_fontsize}")
+print(f"Y-axis label font size: {y_label_fontsize}")
+print(f"Z-axis label font size: {z_label_fontsize}")  # Uncomment for 3D plots
+# font size: 10
 
 #%%
 
