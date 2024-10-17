@@ -16,7 +16,7 @@ from scipy.io import loadmat
 os.chdir('/home/adrian/Downloads')
 
 # Load the .mat file
-data = loadmat('mydata_pca_veh.mat')
+data = loadmat('NEWmydata_pca_veh.mat')
 #data = loadmat('mydata_pca_rgs.mat')
 
 # Extract variables from the loaded data
@@ -95,23 +95,23 @@ def plot_cluster_noKDE(x, y, z, ax):
     #kde = gaussian_kde(np.vstack([x, y]))
     
     # Plot 3D scatter
-    sc = ax.scatter(x, y, z, color='gray', alpha=0.05, rasterized=True)
+    sc = ax.scatter(x, y, z, color='gray', alpha=0.1, rasterized=True)
         #scatter = ax.scatter(x, y, z, c=feature, alpha=alpha, s=s, color=color)
     return sc
 
 # Set a seed for reproducibility
-np.random.seed(42)  # You can choose any integer value
+# np.random.seed(42)  # You can choose any integer value
 
-# Randomly sample 16000 unique indices
-indices = np.random.choice(len(x_axis4), size=16000, replace=False)
+# # Randomly sample 16000 unique indices
+# indices = np.random.choice(len(x_axis4), size=16000, replace=False)
 
 # # Use the sampled indices to create downsampled arrays
 #x_downsampled = x_axis4[indices]
 #y_downsampled = y_axis4[indices]
 #z_downsampled = z_axis4[indices]
-x_downsampled = x_axis4
-y_downsampled = y_axis4
-z_downsampled = z_axis4
+# x_downsampled = x_axis4
+# y_downsampled = y_axis4
+# z_downsampled = z_axis4
 
 # # Plot all clusters on the same figure
 # sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, custom_cmps[0], ax)
@@ -121,11 +121,13 @@ z_downsampled = z_axis4
 # sc4 = plot_cluster(x_downsampled, y_downsampled, z_downsampled, custom_cmps[3], ax)
 
 # Plot all clusters on the same figure
-sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, cmaps[0], ax) # Cluster 3
-sc2 = plot_cluster_noKDE(x_axis2, y_axis2, z_axis2,  ax) #Cluster 4
-sc3 = plot_cluster(x_axis3, y_axis3, z_axis3, cmaps[1], ax) # Cluster 2
+sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, cmaps[2], ax) # Cluster 3
+sc2 = plot_cluster(x_axis2, y_axis2, z_axis2, cmaps[1], ax)
+sc3 = plot_cluster(x_axis3, y_axis3, z_axis3, cmaps[0], ax) # Cluster 2
+sc4 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4,  ax) #Cluster 4
+
 #sc4 = plot_cluster(x_axis4, y_axis4, z_axis4, cmaps[3], ax) # Cluster 1
-sc4 = plot_cluster(x_downsampled, y_downsampled, z_downsampled, cmaps[2], ax)
+#sc4 = plot_cluster(x_downsampled, y_downsampled, z_downsampled, cmaps[2], ax)
 
 # Customize plot
 ax.set_title('VEH (Clusters)',fontsize=12)
@@ -142,10 +144,11 @@ ax.set_zlim(-7.770710858935466, 20)
 
 
 # Add colorbars for each cluster
-fig.colorbar(sc1, ax=ax, label='KDE Cluster 3')
-#fig.colorbar(sc2, ax=ax, label='KDE Cluster 4')
-fig.colorbar(sc3, ax=ax, label='KDE Cluster 2')
-fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
+fig.colorbar(sc3, ax=ax, label='KDE Cluster 3')
+fig.colorbar(sc2, ax=ax, label='KDE Cluster 2')
+fig.colorbar(sc1, ax=ax, label='KDE Cluster 1')
+
+#fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
 
 ax.view_init(azim=180,elev=20)
 # Set font size for axis labels
@@ -173,15 +176,15 @@ plt.draw()  # Update the plot with new ticks
 
 #%%
 # Combine clusters 1,2 and 3. Amount of ripples per cluster is similar.
-x = np.concatenate((x_axis1, x_axis3,x_downsampled), axis=0)
-y = np.concatenate((y_axis1, y_axis3,y_downsampled), axis=0)
-z = np.concatenate((z_axis1, z_axis3,z_downsampled), axis=0)
+x = np.concatenate((x_axis1, x_axis3,x_axis2), axis=0)
+y = np.concatenate((y_axis1, y_axis3,y_axis2), axis=0)
+z = np.concatenate((z_axis1, z_axis3,z_axis2), axis=0)
 
 cmaps = ['inferno'] #, 'plasma', 'inferno',plasma cividis
 
 # Plot clusters on the third subplot (ax3)
 sc9 = plot_cluster(x, y, z, cmaps[0], ax2)  # Cluster 3
-sc10 = plot_cluster_noKDE(x_axis2, y_axis2, z_axis2, ax2)  # Cluster 4
+sc10 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4, ax2)  # Cluster 4
 
 # Customize ax3 plot
 ax2.set_title('VEH (All ripples)',fontsize=12)  # Title for ax3
