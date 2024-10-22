@@ -140,14 +140,29 @@ ax3.set_zlabel('PCA3')
 ###ax.set_zlim(0,10)
 ax3.set_xlim(-10,35)
 ax3.set_ylim(-10,12)
-ax3.set_zlim(-7.770710858935466, 20)
+ax3.set_zlim(-7.770710858935466, 10)
 
 
-# Add colorbars for each cluster
-#fig.colorbar(sc2, ax=ax, label='KDE Cluster 4')
-fig.colorbar(sc7, ax=ax3, label='KDE Cluster 3')
-fig.colorbar(sc6, ax=ax3, label='KDE Cluster 2')
-fig.colorbar(sc5, ax=ax3, label='KDE Cluster 1')
+# # Add colorbars for each cluster
+# #fig.colorbar(sc2, ax=ax, label='KDE Cluster 4')
+# cbar7=fig.colorbar(sc7, ax=ax3, label='KDE Cluster 3',shrink=0.5)
+
+# cbar6=fig.colorbar(sc6, ax=ax3, label='KDE Cluster 2',shrink=0.5)
+
+# cbar5=fig.colorbar(sc5, ax=ax3, label='KDE Cluster 1',shrink=0.5)
+
+
+pos1 = ax3.get_position()  # Get the position of the first subplot
+cbar5 = fig.add_axes([pos1.x1 + 0.03, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax
+colorbar5 =fig.colorbar(sc5, cax=cbar5, label='KDE Cluster 1',shrink=0.1)
+
+cbar6 = fig.add_axes([pos1.x1 + 0.08, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax2
+colorbar6 =fig.colorbar(sc6, cax=cbar6, label='KDE Cluster 2',shrink=0.1)
+
+cbar7 = fig.add_axes([pos1.x1 + 0.12, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax3
+colorbar7 =fig.colorbar(sc7, cax=cbar7, label='KDE Cluster 3',shrink=0.1)
+
+
 
 ax3.view_init(azim=180,elev=20)
 # Set font size for axis labels
@@ -163,7 +178,7 @@ plt.rcParams.update({'font.size': 10})  # Set global font size
 # Set custom ticks for each axis
 ax3.set_xticks([-10, 0, 10, 20, 30])  # For the X-axis
 ax3.set_yticks([-10, -5, 0, 5, 10])   # For the Y-axis
-ax3.set_zticks([0, 10, 20])           # For the Z-axis
+ax3.set_zticks([0, 10])           # For the Z-axis
 
 # Optionally, you can also set the tick labels (if needed)
 # ax.set_xticklabels(['-10', '0', '10', '20', '30'])
@@ -193,12 +208,19 @@ ax4.set_zlabel('PCA3', fontsize=10)
 # Set axis limits for ax3
 ax4.set_xlim(-10, 35)
 ax4.set_ylim(-10, 12)
-ax4.set_zlim(-7.770710858935466, 20)
+ax4.set_zlim(-7.770710858935466, 10)
 
-# Add colorbar for the first cluster in ax3
-fig.colorbar(sc11, ax=ax4, label='KDE All ripples')  # Add colorbar for sc1
-fig.colorbar(sc11, ax=ax4, label='KDE All ripples')  # Add colorbar for sc1
-fig.colorbar(sc11, ax=ax4, label='KDE All ripples')  # Add colorbar for sc1
+
+pos1 = ax4.get_position()  # Get the position of the first subplot
+cbar11 = fig.add_axes([pos1.x1 + 0.03, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax
+colorbar11 =fig.colorbar(sc11, cax=cbar11, label='KDE All ripples',shrink=0.1)
+
+# # Add colorbar for the first cluster in ax3
+# cbar11=fig.colorbar(sc11, ax=ax4, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
+
+# cbar12=fig.colorbar(sc11, ax=ax4, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
+
+# cbar13=fig.colorbar(sc11, ax=ax4, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
 
 # Set view angle for ax3
 ax4.view_init(azim=180, elev=20)
@@ -211,7 +233,7 @@ ax4.grid(True)  # Enable grid for ax3
 
 ax4.set_xticks([-10, 0, 10, 20, 30])  # For the X-axis
 ax4.set_yticks([-10, -5, 0, 5, 10])   # For the Y-axis
-ax4.set_zticks([0, 10, 20])           # For the Z-axis
+ax4.set_zticks([0, 10])           # For the Z-axis
 #%%
 # Assuming sc1, sc2, ..., sc12 are subplot image objects (e.g., from imshow)
 for i, sc in enumerate([sc1, sc2, sc3, sc4, sc5, sc6, sc7, sc8, sc9, sc10, sc11, sc12], 1):
@@ -265,7 +287,114 @@ sc11.set_clim(new_lower_limit_9_11, new_upper_limit_9_11)
 
 # Redraw the figures to apply changes
 plt.draw()
+#%%
+ticks = colorbar1.get_ticks()
+colorbar1.set_ticks([ticks[-1]])
+colorbar1.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar1.set_ticks(ticks)
+colorbar1.set_ticks([ticks[-1]])
 
+ticks = colorbar2.get_ticks()
+colorbar2.set_ticks([ticks[-1]])
+colorbar2.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar2.set_ticks(ticks)
+colorbar2.set_ticks([ticks[-1]])
+
+ticks = colorbar3.get_ticks()
+colorbar3.set_ticks([ticks[-1]])
+colorbar3.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar3.set_ticks(ticks)
+colorbar3.set_ticks([ticks[-1]])
+
+sc1.set_clim(new_lower_limit_1_5, 0.3)
+sc2.set_clim(new_lower_limit_2_6, 0.4)
+sc3.set_clim(new_lower_limit_3_7, 0.12)
+
+
+ticks = colorbar5.get_ticks()
+colorbar5.set_ticks([ticks[-1]])
+colorbar5.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar5.set_ticks(ticks)
+colorbar5.set_ticks([ticks[-1]])
+
+ticks = colorbar6.get_ticks()
+colorbar6.set_ticks([ticks[-1]])
+colorbar6.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar6.set_ticks(ticks)
+colorbar6.set_ticks([ticks[-1]])
+
+ticks = colorbar7.get_ticks()
+colorbar7.set_ticks([ticks[-1]])
+colorbar7.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar7.set_ticks(ticks)
+colorbar7.set_ticks([ticks[-1]])
+
+sc5.set_clim(new_lower_limit_1_5, 0.3)
+sc6.set_clim(new_lower_limit_2_6, 0.4)
+sc7.set_clim(new_lower_limit_3_7, 0.12)
+
+ticks=np.array([0.4])
+colorbar2.set_ticks([ticks[-1]])
+colorbar2.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar2.set_ticks(ticks)
+colorbar2.set_ticks([ticks[-1]])
+colorbar6.set_ticks([ticks[-1]])
+colorbar6.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar6.set_ticks(ticks)
+colorbar6.set_ticks([ticks[-1]])
+
+colorbar1.set_label('KDE Cluster 1', labelpad=-9)
+colorbar2.set_label('KDE Cluster 2', labelpad=-18)
+colorbar3.set_label('KDE Cluster 3', labelpad=-18)
+colorbar5.set_label('KDE Cluster 1', labelpad=-9)
+colorbar6.set_label('KDE Cluster 2', labelpad=-18)
+colorbar7.set_label('KDE Cluster 3', labelpad=-18)
+
+
+
+#%%
+# ticks = cbar8.get_ticks()
+# cbar8.set_ticks([ticks[-1]])
+# cbar8.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+# cbar8.set_ticks(ticks)
+# cbar8.set_ticks([ticks[-1]])
+
+# ticks = cbar9.get_ticks()
+# cbar9.set_ticks([ticks[-1]])
+# cbar9.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+# cbar9.set_ticks(ticks)
+# cbar9.set_ticks([ticks[-1]])
+
+ticks = colorbar10.get_ticks()
+colorbar10.set_ticks([ticks[-1]])
+colorbar10.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar10.set_ticks(ticks)
+colorbar10.set_ticks([ticks[-1]])
+
+ticks = colorbar11.get_ticks()
+colorbar11.set_ticks([ticks[-1]])
+colorbar11.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar11.set_ticks(ticks)
+colorbar11.set_ticks([ticks[-1]])
+
+# ticks = cbar12.get_ticks()
+# cbar12.set_ticks([ticks[-1]])
+# cbar12.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+# cbar12.set_ticks(ticks)
+# cbar12.set_ticks([ticks[-1]])
+
+# ticks = cbar13.get_ticks()
+# cbar13.set_ticks([ticks[-1]])
+# cbar13.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+# cbar13.set_ticks(ticks)
+# cbar13.set_ticks([ticks[-1]])
+
+
+sc9.set_clim(new_lower_limit_9_11, 0.14)
+sc11.set_clim(new_lower_limit_9_11, 0.14)
+
+colorbar10.set_label('KDE All ripples', labelpad=-18)
+colorbar11.set_label('KDE All ripples', labelpad=-18)
 
 #%%
 ax = plt.gca()  # Get current axes;
@@ -292,21 +421,21 @@ print(f"Y-axis tick label font size: {y_tick_fontsize}")
 print(f"Z-axis tick label font size: {z_tick_fontsize}")
 # font size: 10
 
-#%%
+#%% Ideal: 180 and 20
 angle=195
-ax.view_init(azim=angle,elev=20)
-ax2.view_init(azim=angle,elev=20)
-ax3.view_init(azim=angle,elev=20)
-ax4.view_init(azim=angle,elev=20)    
+ax.view_init(azim=angle,elev=-15)
+ax2.view_init(azim=angle,elev=-15)
+ax3.view_init(azim=angle,elev=-15)
+ax4.view_init(azim=angle,elev=-15)
 
 #%%
 
 # Generate and save frames
-for angle in range(0, 360, 5):  # Rotate every 2 degrees
-    ax.view_init(azim=angle,elev=20)
-    ax2.view_init(azim=angle,elev=20)
-    ax3.view_init(azim=angle,elev=20)
-    ax4.view_init(azim=angle,elev=20)    
+for angle in range(0,360, 5):  # Rotate every 2 degrees
+    ax.view_init(azim=angle,elev=-15)
+    ax2.view_init(azim=angle,elev=-15)
+    ax3.view_init(azim=angle,elev=-15)
+    ax4.view_init(azim=angle,elev=-15)    
     plt.savefig(f"frame_{angle}.png", dpi=300)  # Save each frame
 
 #plt.close()
@@ -318,8 +447,24 @@ from moviepy.editor import ImageSequenceClip
 frames = [f"frame_{angle}.png" for angle in range(0, 360, 5)]
 
 # Create a video clip
-clip = ImageSequenceClip(frames, fps=1)
+clip = ImageSequenceClip(frames, fps=2)
 
 # Save the video
-clip.write_videofile("rotating_3D_plot_v6.mp4", codec="mpeg4")
+clip.write_videofile("rotating_3D_plot_v11.mp4", codec="mpeg4")
 
+#%%
+# Remove the lower row (ax3 and ax4)
+fig.delaxes(ax3)  # Delete the third subplot
+fig.delaxes(ax4)  # Delete the fourth subplot
+
+fig.delaxes(cbar5)
+fig.delaxes(cbar6)
+fig.delaxes(cbar7)
+fig.delaxes(cbar11)
+
+
+# Optionally, adjust the layout to make it cleaner
+#plt.tight_layout()
+
+# Show the figure with only the first row of subplots
+plt.show()

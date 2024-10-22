@@ -64,12 +64,15 @@ z_axis4 = z_axis4[~np.isnan(z_axis4)]
 # ax2 = fig.add_subplot(122, projection='3d')  # Second subplot
 # Set up figure and create 2x2 subplot (2 rows, 2 columns)
 
-fig = plt.figure(figsize=(15, 15))
+#fig = plt.figure(figsize=(15, 15))
+fig = plt.figure(figsize=(15, 7.5))
 # Create 4 subplots in a 2x2 grid
+# ax = fig.add_subplot(221, projection='3d')  # First subplot
+# ax2 = fig.add_subplot(222, projection='3d')  # Second subplot
+# ax3 = fig.add_subplot(223, projection='3d')  # Third subplot
+# ax4 = fig.add_subplot(224, projection='3d')  # Fourth subplot
 ax = fig.add_subplot(221, projection='3d')  # First subplot
 ax2 = fig.add_subplot(222, projection='3d')  # Second subplot
-ax3 = fig.add_subplot(223, projection='3d')  # Third subplot
-ax4 = fig.add_subplot(224, projection='3d')  # Fourth subplot
 
 
 # List of colormaps for each cluster
@@ -140,15 +143,31 @@ ax.set_zlabel('PCA3')
 ###ax.set_zlim(0,10)
 ax.set_xlim(-10,35)
 ax.set_ylim(-10,12)
-ax.set_zlim(-7.770710858935466, 20)
+ax.set_zlim(-7.770710858935466, 10)
 
+
+pos1 = ax.get_position()  # Get the position of the first subplot
+cbar1 = fig.add_axes([pos1.x1 + 0.03, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax
+colorbar1 =fig.colorbar(sc1, cax=cbar1, label='KDE Cluster 1',shrink=0.1)
+
+cbar2 = fig.add_axes([pos1.x1 + 0.08, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax2
+colorbar2 =fig.colorbar(sc2, cax=cbar2, label='KDE Cluster 2',shrink=0.1)
+
+cbar3 = fig.add_axes([pos1.x1 + 0.12, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax3
+colorbar3 =fig.colorbar(sc3, cax=cbar3, label='KDE Cluster 3',shrink=0.1)
+
+# cbar2.remove()
+
+# cbar1.remove()
+
+# cbar3.remove()
 
 # Add colorbars for each cluster
-fig.colorbar(sc3, ax=ax, label='KDE Cluster 3')
-fig.colorbar(sc2, ax=ax, label='KDE Cluster 2')
-fig.colorbar(sc1, ax=ax, label='KDE Cluster 1')
+# cbar3=fig.colorbar(sc3, ax=ax, label='KDE Cluster 3',shrink=0.5)
 
-#fig.colorbar(sc4, ax=ax, label='KDE Cluster 1')
+# cbar2=fig.colorbar(sc2, ax=ax, label='KDE Cluster 2',shrink=0.5)
+
+# cbar1=fig.colorbar(sc1, ax=ax, label='KDE Cluster 1',shrink=0.5)
 
 ax.view_init(azim=180,elev=20)
 # Set font size for axis labels
@@ -164,7 +183,7 @@ plt.rcParams.update({'font.size': 10})  # Set global font size
 # Set custom ticks for each axis
 ax.set_xticks([-10, 0, 10, 20, 30])  # For the X-axis
 ax.set_yticks([-10, -5, 0, 5, 10])   # For the Y-axis
-ax.set_zticks([0, 10, 20])           # For the Z-axis
+ax.set_zticks([0, 10])           # For the Z-axis
 
 # Optionally, you can also set the tick labels (if needed)
 # ax.set_xticklabels(['-10', '0', '10', '20', '30'])
@@ -195,12 +214,18 @@ ax2.set_zlabel('PCA3', fontsize=10)
 # Set axis limits for ax3
 ax2.set_xlim(-10, 35)
 ax2.set_ylim(-10, 12)
-ax2.set_zlim(-7.770710858935466, 20)
+ax2.set_zlim(-7.770710858935466, 10)
 
-# Add colorbar for the first cluster in ax3
-fig.colorbar(sc9, ax=ax2, label='KDE All ripples')  # Add colorbar for sc1
-fig.colorbar(sc9, ax=ax2, label='KDE All ripples')  # Add colorbar for sc1
-fig.colorbar(sc9, ax=ax2, label='KDE All ripples')  # Add colorbar for sc1
+pos1 = ax2.get_position()  # Get the position of the first subplot
+cbar10 = fig.add_axes([pos1.x1 + 0.03, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Position the colorbar next to ax
+colorbar10 =fig.colorbar(sc9, cax=cbar10, label='KDE All ripples',shrink=0.1)
+
+# # Add colorbar for the first cluster in ax3
+# cbar10=fig.colorbar(sc9, ax=ax2, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
+
+# cbar8=fig.colorbar(sc9, ax=ax2, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
+
+# cbar9=fig.colorbar(sc9, ax=ax2, label='KDE All ripples',shrink=0.5)  # Add colorbar for sc1
 
 # Set view angle for ax3
 ax2.view_init(azim=180, elev=20)
@@ -213,7 +238,7 @@ ax2.grid(True)  # Enable grid for ax3
 
 ax2.set_xticks([-10, 0, 10, 20, 30])  # For the X-axis
 ax2.set_yticks([-10, -5, 0, 5, 10])   # For the Y-axis
-ax2.set_zticks([0, 10, 20])           # For the Z-axis
+ax2.set_zticks([0, 10])           # For the Z-axis
 
 
 #%%
