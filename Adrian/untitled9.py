@@ -318,9 +318,9 @@ ax_2d_2.set_title('Cluster 2 - 2D Contour')
 ax_2d_3.set_title('Cluster 3 - 2D Contour')
 
 # Add colorbars for 2D plots
-fig.colorbar(contour1, ax=ax_2d_1)
-fig.colorbar(contour2, ax=ax_2d_2)
-fig.colorbar(contour3, ax=ax_2d_3)
+col1=fig.colorbar(contour1, ax=ax_2d_1)
+col2=fig.colorbar(contour2, ax=ax_2d_2)
+col3=fig.colorbar(contour3, ax=ax_2d_3)
 
 # Add some spacing to avoid label overlap
 plt.tight_layout(pad=3.0)  # Adjust padding to avoid overlap
@@ -340,7 +340,446 @@ Vmax3=0.108
 contour1.set_clim(vmin=0, vmax=Vmax1)
 contour2.set_clim(vmin=0, vmax=Vmax2)
 contour3.set_clim(vmin=0, vmax=Vmax3)
+col1.vmax=Vmax1
+col2.vmax=Vmax2
+col3.vmax=Vmax3
+
+#%%
+
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import numpy as np
+
+fig = plt.figure(figsize=(18, 10))
+# Create 6 subplots: 3 for 3D and 3 for 2D (3x2 grid)
+ax_3d_1 = fig.add_subplot(231, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(232, projection='3d')  # Second subplot (3D)
+ax_3d_3 = fig.add_subplot(233, projection='3d')  # Third subplot (3D)
+
+ax_2d_1 = fig.add_subplot(234)  # First subplot (2D)
+ax_2d_2 = fig.add_subplot(235)  # Second subplot (2D)
+ax_2d_3 = fig.add_subplot(236)  # Third subplot (2D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno']
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Function to perform KDE and plot contours (2D)
+def plot_cluster_2d(x, y, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    
+    # Create a grid over the x and y range
+    xgrid = np.linspace(x.min(), x.max(), 100)
+    ygrid = np.linspace(y.min(), y.max(), 100)
+    X, Y = np.meshgrid(xgrid, ygrid)
+    Z = kde(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
+    
+    # Plot contour
+    contour = ax.contourf(X, Y, Z, levels=20, cmap=cmap)
+    
+    # Set labels for 2D plots
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    
+    return contour
+
+# Global xlim, ylim for 2D plots and zlim for 3D plots
+xlim = [-3.82235, 7.2036568]
+ylim = [-5.176079, 6.549440947]
+zlim = [-4.36141484439, 5.047662087]
+
+# Plot 3D clusters, using the same axis limits for all 3D plots
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1)  # Cluster 1
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_2)  # Cluster 2
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_3)  # Cluster 3
+
+# Set the same limits for all 3D subplots
+for ax in [ax_3d_1, ax_3d_2, ax_3d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_zlim(zlim)
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    ax.set_zlabel('PCA3')
+
+# Plot 2D contours for each cluster, using the same xlim and ylim
+contour1 = plot_cluster_2d(x_axis1, y_axis1, cmaps[2], ax_2d_1)
+contour2 = plot_cluster_2d(x_axis2, y_axis2, cmaps[1], ax_2d_2)
+contour3 = plot_cluster_2d(x_axis3, y_axis3, cmaps[0], ax_2d_3)
+
+# Ensure the same axis limits for all 2D plots
+for ax in [ax_2d_1, ax_2d_2, ax_2d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+# Customize 3D plot titles
+ax_3d_1.set_title('Cluster 1 - 3D')
+ax_3d_2.set_title('Cluster 2 - 3D')
+ax_3d_3.set_title('Cluster 3 - 3D')
+
+# Customize 2D plot titles
+ax_2d_1.set_title('Cluster 1 - 2D Contour')
+ax_2d_2.set_title('Cluster 2 - 2D Contour')
+ax_2d_3.set_title('Cluster 3 - 2D Contour')
+
+# Set clim values for the contours
+Vmax1 = 0.3
+Vmax2 = 0.315
+Vmax3 = 0.108
+
+contour1.set_clim(vmin=0, vmax=Vmax1)
+contour2.set_clim(vmin=0, vmax=Vmax2)
+contour3.set_clim(vmin=0, vmax=Vmax3)
+
+# Recreate the colorbars to reflect the updated limits
+fig.colorbar(contour1, ax=ax_2d_1)
+fig.colorbar(contour2, ax=ax_2d_2)
+fig.colorbar(contour3, ax=ax_2d_3)
+
+# Add some spacing to avoid label overlap
+plt.tight_layout(pad=3.0)
+plt.show()
+
+# Print the color limits for verification
+print("Contour 1 clim:", contour1.get_clim())
+print("Contour 2 clim:", contour2.get_clim())
+print("Contour 3 clim:", contour3.get_clim())
 
 
 
 #%%
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import numpy as np
+
+fig = plt.figure(figsize=(18, 10))
+# Create 6 subplots: 3 for 3D and 3 for 2D (3x2 grid)
+ax_3d_1 = fig.add_subplot(231, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(232, projection='3d')  # Second subplot (3D)
+ax_3d_3 = fig.add_subplot(233, projection='3d')  # Third subplot (3D)
+
+ax_2d_1 = fig.add_subplot(234)  # First subplot (2D)
+ax_2d_2 = fig.add_subplot(235)  # Second subplot (2D)
+ax_2d_3 = fig.add_subplot(236)  # Third subplot (2D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno']
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Function to perform KDE and plot contours (2D)
+def plot_cluster_2d(x, y, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    
+    # Create a grid over the x and y range
+    xgrid = np.linspace(x.min(), x.max(), 100)
+    ygrid = np.linspace(y.min(), y.max(), 100)
+    X, Y = np.meshgrid(xgrid, ygrid)
+    Z = kde(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
+    
+    # Plot contour
+    contour = ax.contourf(X, Y, Z, levels=20, cmap=cmap)
+    
+    # Set labels for 2D plots
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    
+    return contour
+
+# Global xlim, ylim for 2D plots and zlim for 3D plots
+xlim = [-3.82235, 7.2036568]
+ylim = [-5.176079, 6.549440947]
+zlim = [-4.36141484439, 5.047662087]
+
+# Plot 3D clusters, using the same axis limits for all 3D plots
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1)  # Cluster 1
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_2)  # Cluster 2
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_3)  # Cluster 3
+
+# Set the same limits for all 3D subplots
+for ax in [ax_3d_1, ax_3d_2, ax_3d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_zlim(zlim)
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    ax.set_zlabel('PCA3')
+
+# Plot 2D contours for each cluster, using the same xlim and ylim
+contour1 = plot_cluster_2d(x_axis1, y_axis1, cmaps[2], ax_2d_1)
+contour2 = plot_cluster_2d(x_axis2, y_axis2, cmaps[1], ax_2d_2)
+contour3 = plot_cluster_2d(x_axis3, y_axis3, cmaps[0], ax_2d_3)
+
+# Ensure the same axis limits for all 2D plots
+for ax in [ax_2d_1, ax_2d_2, ax_2d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+# Customize 3D plot titles
+ax_3d_1.set_title('Cluster 1 - 3D')
+ax_3d_2.set_title('Cluster 2 - 3D')
+ax_3d_3.set_title('Cluster 3 - 3D')
+
+# Customize 2D plot titles
+ax_2d_1.set_title('Cluster 1 - 2D Contour')
+ax_2d_2.set_title('Cluster 2 - 2D Contour')
+ax_2d_3.set_title('Cluster 3 - 2D Contour')
+
+# Set clim values for the contours
+Vmax1 = 0.3
+Vmax2 = 0.315
+Vmax3 = 0.108
+
+# Set color limits for the contours, even if they don't reach these values
+contour1.set_clim(vmin=0, vmax=Vmax1)
+contour2.set_clim(vmin=0, vmax=Vmax2)
+contour3.set_clim(vmin=0, vmax=Vmax3)
+
+# Recreate the colorbars to reflect the updated limits
+cbar1 = fig.colorbar(contour1, ax=ax_2d_1)
+cbar2 = fig.colorbar(contour2, ax=ax_2d_2)
+cbar3 = fig.colorbar(contour3, ax=ax_2d_3)
+
+# Manually set the ticks and limits of the colorbars to match the desired range
+cbar1.set_ticks(np.linspace(0, Vmax1, num=5))
+cbar2.set_ticks(np.linspace(0, Vmax2, num=5))
+cbar3.set_ticks(np.linspace(0, Vmax3, num=5))
+
+# Add some spacing to avoid label overlap
+plt.tight_layout(pad=3.0)
+plt.show()
+
+# Print the color limits for verification
+print("Contour 1 clim:", contour1.get_clim())
+print("Contour 2 clim:", contour2.get_clim())
+print("Contour 3 clim:", contour3.get_clim())
+#%%
+
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import numpy as np
+
+fig = plt.figure(figsize=(18, 10))
+# Create 6 subplots: 3 for 3D and 3 for 2D (3x2 grid)
+ax_3d_1 = fig.add_subplot(231, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(232, projection='3d')  # Second subplot (3D)
+ax_3d_3 = fig.add_subplot(233, projection='3d')  # Third subplot (3D)
+
+ax_2d_1 = fig.add_subplot(234)  # First subplot (2D)
+ax_2d_2 = fig.add_subplot(235)  # Second subplot (2D)
+ax_2d_3 = fig.add_subplot(236)  # Third subplot (2D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno']
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Function to perform KDE and plot contours (2D)
+def plot_cluster_2d(x, y, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    
+    # Create a grid over the x and y range
+    xgrid = np.linspace(x.min(), x.max(), 100)
+    ygrid = np.linspace(y.min(), y.max(), 100)
+    X, Y = np.meshgrid(xgrid, ygrid)
+    Z = kde(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
+    
+    # Plot contour
+    contour = ax.contourf(X, Y, Z, levels=20, cmap=cmap)
+    
+    # Set labels for 2D plots
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    
+    return contour
+
+# Global xlim, ylim for 2D plots and zlim for 3D plots
+xlim = [-3.82235, 7.2036568]
+ylim = [-5.176079, 6.549440947]
+zlim = [-4.36141484439, 5.047662087]
+
+# Plot 3D clusters, using the same axis limits for all 3D plots
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1)  # Cluster 1
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_2)  # Cluster 2
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_3)  # Cluster 3
+
+# Set the same limits for all 3D subplots
+for ax in [ax_3d_1, ax_3d_2, ax_3d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_zlim(zlim)
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    ax.set_zlabel('PCA3')
+
+# Plot 2D contours for each cluster, using the same xlim and ylim
+contour1 = plot_cluster_2d(x_axis1, y_axis1, cmaps[2], ax_2d_1)
+contour2 = plot_cluster_2d(x_axis2, y_axis2, cmaps[1], ax_2d_2)
+contour3 = plot_cluster_2d(x_axis3, y_axis3, cmaps[0], ax_2d_3)
+
+# Ensure the same axis limits for all 2D plots
+for ax in [ax_2d_1, ax_2d_2, ax_2d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+# Customize 3D plot titles
+ax_3d_1.set_title('Cluster 1 - 3D')
+ax_3d_2.set_title('Cluster 2 - 3D')
+ax_3d_3.set_title('Cluster 3 - 3D')
+
+# Customize 2D plot titles
+ax_2d_1.set_title('Cluster 1 - 2D Contour')
+ax_2d_2.set_title('Cluster 2 - 2D Contour')
+ax_2d_3.set_title('Cluster 3 - 2D Contour')
+
+# Set clim values for the contours
+Vmax1 = 0.3
+Vmax2 = 0.315
+Vmax3 = 0.108
+
+# Set color limits for the contours, even if they don't reach these values
+contour1.set_clim(vmin=0, vmax=Vmax1)
+contour2.set_clim(vmin=0, vmax=Vmax2)
+contour3.set_clim(vmin=0, vmax=Vmax3)
+
+# Recreate the colorbars to reflect the updated limits
+cbar1 = fig.colorbar(contour1, ax=ax_2d_1)
+cbar2 = fig.colorbar(contour2, ax=ax_2d_2)
+cbar3 = fig.colorbar(contour3, ax=ax_2d_3)
+
+# Set the ticks of the colorbar to only show the vmax (highest value)
+cbar1.set_ticks([Vmax1])
+cbar2.set_ticks([Vmax2])
+cbar3.set_ticks([Vmax3])
+
+# Add some spacing to avoid label overlap
+plt.tight_layout(pad=3.0)
+plt.show()
+
+# Print the color limits for verification
+print("Contour 1 clim:", contour1.get_clim())
+print("Contour 2 clim:", contour2.get_clim())
+print("Contour 3 clim:", contour3.get_clim())
+#%%
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import numpy as np
+
+fig = plt.figure(figsize=(18, 10))
+# Create 6 subplots: 3 for 3D and 3 for 2D (3x2 grid)
+ax_3d_1 = fig.add_subplot(231, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(232, projection='3d')  # Second subplot (3D)
+ax_3d_3 = fig.add_subplot(233, projection='3d')  # Third subplot (3D)
+
+ax_2d_1 = fig.add_subplot(234)  # First subplot (2D)
+ax_2d_2 = fig.add_subplot(235)  # Second subplot (2D)
+ax_2d_3 = fig.add_subplot(236)  # Third subplot (2D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno']
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Function to perform KDE and plot contours (2D)
+def plot_cluster_2d(x, y, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    
+    # Create a grid over the x and y range
+    xgrid = np.linspace(x.min(), x.max(), 100)
+    ygrid = np.linspace(y.min(), y.max(), 100)
+    X, Y = np.meshgrid(xgrid, ygrid)
+    Z = kde(np.vstack([X.ravel(), Y.ravel()])).reshape(X.shape)
+    
+    # Plot contour
+    contour = ax.contourf(X, Y, Z, levels=20, cmap=cmap)
+    
+    # Set labels for 2D plots
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    
+    return contour
+
+# Global xlim, ylim for 2D plots and zlim for 3D plots
+xlim = [-3.82235, 7.2036568]
+ylim = [-5.176079, 6.549440947]
+zlim = [-4.36141484439, 5.047662087]
+
+# Plot 3D clusters, using the same axis limits for all 3D plots
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1)  # Cluster 1
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_2)  # Cluster 2
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_3)  # Cluster 3
+
+# Set the same limits for all 3D subplots
+for ax in [ax_3d_1, ax_3d_2, ax_3d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_zlim(zlim)
+    ax.set_xlabel('PCA1')
+    ax.set_ylabel('PCA2')
+    ax.set_zlabel('PCA3')
+
+# Plot 2D contours for each cluster, using the same xlim and ylim
+contour1 = plot_cluster_2d(x_axis1, y_axis1, cmaps[2], ax_2d_1)
+contour2 = plot_cluster_2d(x_axis2, y_axis2, cmaps[1], ax_2d_2)
+contour3 = plot_cluster_2d(x_axis3, y_axis3, cmaps[0], ax_2d_3)
+
+# Ensure the same axis limits for all 2D plots
+for ax in [ax_2d_1, ax_2d_2, ax_2d_3]:
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+# Customize 3D plot titles
+ax_3d_1.set_title('Cluster 1 - 3D')
+ax_3d_2.set_title('Cluster 2 - 3D')
+ax_3d_3.set_title('Cluster 3 - 3D')
+
+# Customize 2D plot titles
+ax_2d_1.set_title('Cluster 1 - 2D Contour')
+ax_2d_2.set_title('Cluster 2 - 2D Contour')
+ax_2d_3.set_title('Cluster 3 - 2D Contour')
+
+# Set clim values for the contours
+Vmax1 = 0.3
+Vmax2 = 0.315
+Vmax3 = 0.108
+
+# Set color limits for the contours, even if they don't reach these values
+contour1.set_clim(vmin=0, vmax=Vmax1)
+contour2.set_clim(vmin=0, vmax=Vmax2)
+contour3.set_clim(vmin=0, vmax=Vmax3)
+
+# Recreate the colorbars to reflect the updated limits
+cbar1 = fig.colorbar(contour1, ax=ax_2d_1)
+cbar2 = fig.colorbar(contour2, ax=ax_2d_2)
+cbar3 = fig.colorbar(contour3, ax=ax_2d_3)
+
+# Manually set the colorbar ticks to include the vmax
+cbar1.set_ticks([0, Vmax1])
+cbar2.set_ticks([0, Vmax2])
+cbar3.set_ticks([0, Vmax3])
+
+# Add some spacing to avoid label overlap
+plt.tight_layout(pad=3.0)
+plt.show()
+
+# Print the color limits for verification
+print("Contour 1 clim:", contour1.get_clim())
+print("Contour 2 clim:", contour2.get_clim())
+print("Contour 3 clim:", contour3.get_clim())
