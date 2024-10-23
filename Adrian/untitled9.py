@@ -274,10 +274,14 @@ def plot_cluster_2d(x, y, cmap, ax):
     
     return contour
 
-# Find global xlim, ylim for 2D plots and zlim for 3D plots
-xlim = [min(x_axis1.min(), x_axis2.min(), x_axis3.min()), max(x_axis1.max(), x_axis2.max(), x_axis3.max())]
-ylim = [min(y_axis1.min(), y_axis2.min(), y_axis3.min()), max(y_axis1.max(), y_axis2.max(), y_axis3.max())]
-zlim = [min(z_axis1.min(), z_axis2.min(), z_axis3.min()), max(z_axis1.max(), z_axis2.max(), z_axis3.max())]
+# # Find global xlim, ylim for 2D plots and zlim for 3D plots
+# xlim = [min(x_axis1.min(), x_axis2.min(), x_axis3.min()), max(x_axis1.max(), x_axis2.max(), x_axis3.max())]
+# ylim = [min(y_axis1.min(), y_axis2.min(), y_axis3.min()), max(y_axis1.max(), y_axis2.max(), y_axis3.max())]
+# zlim = [min(z_axis1.min(), z_axis2.min(), z_axis3.min()), max(z_axis1.max(), z_axis2.max(), z_axis3.max())]
+
+xlim=[-3.82235,7.2036568]
+ylim=[-5.176079, 6.549440947]
+zlim=[-4.36141484439, 5.047662087]
 
 # Plot 3D clusters, using the same axis limits for all 3D plots
 sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1)  # Cluster 1
@@ -340,4 +344,3 @@ contour3.set_clim(vmin=0, vmax=Vmax3)
 
 
 #%%
-
