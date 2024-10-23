@@ -783,3 +783,98 @@ plt.show()
 print("Contour 1 clim:", contour1.get_clim())
 print("Contour 2 clim:", contour2.get_clim())
 print("Contour 3 clim:", contour3.get_clim())
+
+#%%
+Elev=30
+# Generate and save frames
+for angle in range(0,360, 5):  # Rotate every 2 degrees
+    ax_3d_1.view_init(azim=angle,elev=Elev)
+    ax_3d_2.view_init(azim=angle,elev=Elev)
+    ax_3d_3.view_init(azim=angle,elev=Elev)    
+    plt.savefig(f"frame_{angle}.png", dpi=300)  # Save each frame
+#%%
+from moviepy.editor import ImageSequenceClip
+
+# List of all the frame files
+frames = [f"frame_{angle}.png" for angle in range(0, 360, 5)]
+
+# Create a video clip
+clip = ImageSequenceClip(frames, fps=2)
+
+# Save the video
+clip.write_videofile("rotating_3D_plot_v13.mp4", codec="mpeg4")
+
+#%%
+fig = plt.figure(figsize=(15, 15))
+# Create 4 subplots: 2x2 grid
+ax_3d_1 = fig.add_subplot(221, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(222, projection='3d')  # Second subplot (3D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno'] 
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Plot 3D clusters
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1) 
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_1)
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_1)
+
+
+# Customize 3D plot
+ax_3d_1.set_title('VEH (Clusters) 3D')
+ax_3d_1.set_xlabel('PCA1')
+ax_3d_1.set_ylabel('PCA2')
+ax_3d_1.set_zlabel('PCA3')
+
+
+cbar1=fig.colorbar(sc1, ax=ax_3d_1)
+ticks = cbar1.get_ticks()
+cbar1.set_ticks([ticks[-1]])
+cbar1.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+cbar1.set_ticks(ticks)
+cbar1.set_ticks([ticks[-1]])
+
+
+cbar2=fig.colorbar(sc2, ax=ax_3d_1)
+ticks = cbar2.get_ticks()
+cbar2.set_ticks([ticks[-1]])
+cbar2.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+cbar2.set_ticks(ticks)
+cbar2.set_ticks([ticks[-1]])
+
+cbar3=fig.colorbar(sc3, ax=ax_3d_1)
+ticks = cbar3.get_ticks()
+cbar3.set_ticks([ticks[-1]])
+cbar3.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+cbar3.set_ticks(ticks)
+cbar3.set_ticks([ticks[-1]])
+
+# Combine clusters 1,2 and 3. Amount of ripples per cluster is similar.
+x = np.concatenate((x_axis1, x_axis3,x_axis2), axis=0)
+y = np.concatenate((y_axis1, y_axis3,y_axis2), axis=0)
+z = np.concatenate((z_axis1, z_axis3,z_axis2), axis=0)
+
+cmaps = ['inferno'] #, 'plasma', 'inferno',plasma cividis
+
+# Plot clusters on the third subplot (ax3)
+sc9 = plot_cluster_3d(x, y, z, cmaps[0], ax_3d_2)  # Cluster 3
+ax_3d_2.set_title('VEH (All ripples) 3D')
+ax_3d_2.set_xlabel('PCA1')
+ax_3d_2.set_ylabel('PCA2')
+ax_3d_2.set_zlabel('PCA3')
+
+cbar4=fig.colorbar(sc9, ax=ax_3d_2)
+
+ticks = cbar4.get_ticks()
+cbar4.set_ticks([ticks[-1]])
+cbar4.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+cbar4.set_ticks(ticks)
+cbar4.set_ticks([ticks[-1]])
+
+plt.tight_layout()
+plt.show()
