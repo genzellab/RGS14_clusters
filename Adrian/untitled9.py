@@ -790,7 +790,7 @@ Elev=30
 for angle in range(0,360, 5):  # Rotate every 2 degrees
     ax_3d_1.view_init(azim=angle,elev=Elev)
     ax_3d_2.view_init(azim=angle,elev=Elev)
-    ax_3d_3.view_init(azim=angle,elev=Elev)    
+    #ax_3d_3.view_init(azim=angle,elev=Elev)    
     plt.savefig(f"frame_{angle}.png", dpi=300)  # Save each frame
 #%%
 from moviepy.editor import ImageSequenceClip
@@ -802,7 +802,7 @@ frames = [f"frame_{angle}.png" for angle in range(0, 360, 5)]
 clip = ImageSequenceClip(frames, fps=2)
 
 # Save the video
-clip.write_videofile("rotating_3D_plot_v13.mp4", codec="mpeg4")
+clip.write_videofile("rotating_3D_plot_v14.mp4", codec="mpeg4")
 
 #%%
 fig = plt.figure(figsize=(15, 15))
@@ -878,3 +878,99 @@ cbar4.set_ticks([ticks[-1]])
 
 plt.tight_layout()
 plt.show()
+#%%
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import gaussian_kde
+
+# Create figure
+fig = plt.figure(figsize=(15, 15))
+
+# Create 2 subplots for 3D scatter plots (2x1 grid)
+ax_3d_1 = fig.add_subplot(221, projection='3d')  # First subplot (3D)
+ax_3d_2 = fig.add_subplot(222, projection='3d')  # Second subplot (3D)
+
+# List of colormaps for each cluster
+cmaps = ['viridis', 'plasma', 'inferno'] 
+
+# Function to perform KDE and plot each cluster (3D)
+def plot_cluster_3d(x, y, z, cmap, ax):
+    kde = gaussian_kde(np.vstack([x, y]))
+    sc = ax.scatter(x, y, z, c=kde(np.vstack([x, y])), cmap=cmap, alpha=0.4, rasterized=True)
+    return sc
+
+# Plot 3D clusters on the first subplot
+sc1 = plot_cluster_3d(x_axis1, y_axis1, z_axis1, cmaps[2], ax_3d_1) 
+sc2 = plot_cluster_3d(x_axis2, y_axis2, z_axis2, cmaps[1], ax_3d_1)
+sc3 = plot_cluster_3d(x_axis3, y_axis3, z_axis3, cmaps[0], ax_3d_1)
+
+# Customize the first 3D plot
+ax_3d_1.set_title('VEH (Clusters) 3D')
+ax_3d_1.set_xlabel('PCA1')
+ax_3d_1.set_ylabel('PCA2')
+ax_3d_1.set_zlabel('PCA3')
+
+# Combine clusters 1, 2, and 3 for the second 3D plot
+x_combined = np.concatenate((x_axis1, x_axis3, x_axis2), axis=0)
+y_combined = np.concatenate((y_axis1, y_axis3, y_axis2), axis=0)
+z_combined = np.concatenate((z_axis1, z_axis3, z_axis2), axis=0)
+
+# Plot combined clusters on the second 3D subplot
+sc_combined = plot_cluster_3d(x_combined, y_combined, z_combined, cmaps[0], ax_3d_2)
+ax_3d_2.set_title('VEH (All ripples) 3D')
+ax_3d_2.set_xlabel('PCA1')
+ax_3d_2.set_ylabel('PCA2')
+ax_3d_2.set_zlabel('PCA3')
+
+# Adjust colorbars to avoid shrinking the scatter plots
+# Get the positions of the first and second 3D plots
+pos1 = ax_3d_1.get_position()  # Position of ax_3d_1
+pos2 = ax_3d_2.get_position()  # Position of ax_3d_2
+
+# Define new positions for the colorbars
+cbar1 = fig.add_axes([pos1.x1 + 0.01, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Colorbar for ax_3d_1
+colorbar1 = fig.colorbar(sc1, cax=cbar1, label='KDE Cluster 1')
+ticks = colorbar1.get_ticks()
+colorbar1.set_ticks([ticks[-1]])
+colorbar1.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar1.set_ticks(ticks)
+colorbar1.set_ticks([ticks[-1]])
+
+cbar2 = fig.add_axes([pos1.x1 + 0.05, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Colorbar for ax_3d_2
+colorbar2 = fig.colorbar(sc2, cax=cbar2, label='KDE Cluster 2')
+#ticks = colorbar2.get_ticks()
+ticks=[0.4]
+colorbar2.set_ticks([ticks[-1]])
+colorbar2.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar2.set_ticks(ticks)
+colorbar2.set_ticks([ticks[-1]])
+
+cbar3 = fig.add_axes([pos1.x1 + 0.09, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Colorbar for ax_3d_1
+colorbar3 = fig.colorbar(sc3, cax=cbar3, label='KDE Cluster 3')
+ticks = colorbar3.get_ticks()
+colorbar3.set_ticks([ticks[-1]])
+colorbar3.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar3.set_ticks(ticks)
+colorbar3.set_ticks([ticks[-1]])
+
+colorbar1.set_label('KDE Cluster 1', labelpad=-18)
+colorbar2.set_label('KDE Cluster 2', labelpad=-18)
+colorbar3.set_label('KDE Cluster 3', labelpad=-18)
+
+sc1.set_clim(new_lower_limit_1_5, 0.3)
+sc2.set_clim(new_lower_limit_2_6, 0.4)
+sc3.set_clim(new_lower_limit_3_7, 0.12)
+# Repeat for the second scatter plot
+cbar_combined = fig.add_axes([pos2.x1 + 0.03, pos2.y0+0.05, 0.01, pos2.height-0.1])
+colorbar_combined = fig.colorbar(sc_combined, cax=cbar_combined, label='KDE Combined')
+ticks = colorbar_combined.get_ticks()
+colorbar_combined.set_ticks([ticks[-1]])
+colorbar_combined.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
+colorbar_combined.set_ticks(ticks)
+colorbar_combined.set_ticks([ticks[-1]])
+
+
+# Ensure layout is consistent
+plt.tight_layout()
+plt.show()
+
