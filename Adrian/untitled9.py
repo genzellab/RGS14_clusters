@@ -927,6 +927,12 @@ ax_3d_2.set_zlabel('PCA3')
 pos1 = ax_3d_1.get_position()  # Position of ax_3d_1
 pos2 = ax_3d_2.get_position()  # Position of ax_3d_2
 
+sc1.set_clim(new_lower_limit_1_5, 0.3)
+sc2.set_clim(new_lower_limit_2_6, 0.4)
+sc3.set_clim(new_lower_limit_3_7, 0.12)
+
+sc_combined.set_clim(new_lower_limit_9_11,0.14)
+
 # Define new positions for the colorbars
 cbar1 = fig.add_axes([pos1.x1 + 0.01, pos1.y0+0.05, 0.01, pos1.height-0.1])  # Colorbar for ax_3d_1
 colorbar1 = fig.colorbar(sc1, cax=cbar1, label='KDE Cluster 1')
@@ -957,11 +963,11 @@ colorbar1.set_label('KDE Cluster 1', labelpad=-18)
 colorbar2.set_label('KDE Cluster 2', labelpad=-18)
 colorbar3.set_label('KDE Cluster 3', labelpad=-18)
 
-sc1.set_clim(new_lower_limit_1_5, 0.3)
-sc2.set_clim(new_lower_limit_2_6, 0.4)
-sc3.set_clim(new_lower_limit_3_7, 0.12)
+# sc1.set_clim(new_lower_limit_1_5, 0.3)
+# sc2.set_clim(new_lower_limit_2_6, 0.4)
+# sc3.set_clim(new_lower_limit_3_7, 0.12)
 # Repeat for the second scatter plot
-cbar_combined = fig.add_axes([pos2.x1 + 0.03, pos2.y0+0.05, 0.01, pos2.height-0.1])
+cbar_combined = fig.add_axes([pos2.x1 + 0.04, pos2.y0+0.05, 0.01, pos2.height-0.1])
 colorbar_combined = fig.colorbar(sc_combined, cax=cbar_combined, label='KDE Combined')
 ticks = colorbar_combined.get_ticks()
 colorbar_combined.set_ticks([ticks[-1]])
@@ -969,9 +975,45 @@ colorbar_combined.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
 colorbar_combined.set_ticks(ticks)
 colorbar_combined.set_ticks([ticks[-1]])
 
-sc_combined.set_clim(new_lower_limit_9_11,0.14)
+# sc_combined.set_clim(new_lower_limit_9_11,0.14)
+# ax_3d_1.set_xlim(-8, 6)
+# ax_3d_1.set_ylim(0, 7.5)
+# ax_3d_1.set_zlim(-5, 1)
+# ax_3d_2.set_xlim(-8, 6)
+# ax_3d_2.set_ylim(0, 7.5)
+# ax_3d_2.set_zlim(-5, 1)
+
+ax_3d_1.set_xlim(-4.5, 8)
+ax_3d_1.set_ylim(-4, 7.5)
+ax_3d_1.set_zlim(-5, 4)
+ax_3d_2.set_xlim(-4.5, 8)
+ax_3d_2.set_ylim(-4, 7.5)
+ax_3d_2.set_zlim(-5, 4)
+
 
 # Ensure layout is consistent
 plt.tight_layout()
 plt.show()
+
+#%%
+from scipy.spatial.distance import pdist
+points_c1 = np.vstack((x_axis1, y_axis1, z_axis1)).T
+pairwise_distances = pdist(points_c1)  # Compute pairwise distances
+mean_pairwise_distance = np.mean(pairwise_distances)
+print("Mean Pairwise Distance C1 (Heterogeneity):", mean_pairwise_distance)
+
+points=np.vstack((x_axis2,y_axis2,z_axis2)).T
+pairwise_distances = pdist(points)  # Compute pairwise distances
+mean_pairwise_distance = np.mean(pairwise_distances)
+print("Mean Pairwise Distance C2 (Heterogeneity):", mean_pairwise_distance)
+
+points=np.vstack((x_axis3, y_axis3, z_axis3)).T
+pairwise_distances = pdist(points)  # Compute pairwise distances
+mean_pairwise_distance = np.mean(pairwise_distances)
+print("Mean Pairwise Distance C3 (Heterogeneity):", mean_pairwise_distance)
+
+points=np.vstack((x_combined, y_combined,z_combined))
+pairwise_distances = pdist(points)  # Compute pairwise distances
+mean_pairwise_distance = np.mean(pairwise_distances)
+print("Mean Pairwise Distance All (Heterogeneity):", mean_pairwise_distance)
 
