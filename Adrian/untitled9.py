@@ -969,6 +969,7 @@ colorbar_combined.ax.set_yticklabels([f'{ticks[-1]:.2f}'])
 colorbar_combined.set_ticks(ticks)
 colorbar_combined.set_ticks([ticks[-1]])
 
+sc_combined.set_clim(new_lower_limit_9_11,0.14)
 
 # Ensure layout is consistent
 plt.tight_layout()
