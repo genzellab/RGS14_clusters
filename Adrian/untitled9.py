@@ -1017,3 +1017,87 @@ pairwise_distances = pdist(points)  # Compute pairwise distances
 mean_pairwise_distance = np.mean(pairwise_distances)
 print("Mean Pairwise Distance All (Heterogeneity):", mean_pairwise_distance)
 
+#%%
+
+import numpy as np
+from scipy.stats import binned_statistic_dd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.colors import Normalize
+from matplotlib import cm
+
+def plot_cluster_3d(x, y, z, cmap, ax, bins=30):
+    # Combine x, y, z into a single 2D array for processing
+    points = np.vstack([x, y, z]).T
+    
+    # Compute the 3D density by dividing space into smaller bins (voxels)
+    density, edges = np.histogramdd(points, bins=bins)
+    
+    # Calculate the density for each point using voxel centers
+    stat, _, _ = binned_statistic_dd(points, points[:, 0], statistic='count', bins=bins)
+    stat = stat / np.max(stat)  # Normalize density values between 0 and 1
+    
+    # Calculate the voxel center coordinates
+    x_centers = (edges[0][1:] + edges[0][:-1]) / 2
+    y_centers = (edges[1][1:] + edges[1][:-1]) / 2
+    z_centers = (edges[2][1:] + edges[2][:-1]) / 2
+    
+    # Flatten voxel center coordinates and densities
+    x_centers, y_centers, z_centers = np.meshgrid(x_centers, y_centers, z_centers, indexing="ij")
+    x_flat, y_flat, z_flat, densities_flat = x_centers.ravel(), y_centers.ravel(), z_centers.ravel(), stat.ravel()
+    
+    # Remove empty voxels for plotting efficiency
+    mask = densities_flat > 0
+    x_flat, y_flat, z_flat, densities_flat = x_flat[mask], y_flat[mask], z_flat[mask], densities_flat[mask]
+    
+    # Normalize colors based on density values
+    norm = Normalize(vmin=0, vmax=1)
+    colors = cm.get_cmap(cmap)(norm(densities_flat))
+    
+    # Scatter plot with density-based colors
+    sc = ax.scatter(x_flat, y_flat, z_flat, color=colors, alpha=0.5, s=5)
+    return sc
+
+#%%
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.neighbors import KernelDensity
+from matplotlib.colors import Normalize
+from matplotlib import cm
+
+def plot_cluster_3d(x, y, z, cmap, ax, bandwidth=0.2, num_samples=50):
+    # Optionally sample data to reduce computation (e.g., 30% of points)
+    sample_size = int(len(x) * 0.3)
+    sample_indices = np.random.choice(len(x), sample_size, replace=False)
+    x, y, z = x[sample_indices], y[sample_indices], z[sample_indices]
+
+    # Stack x, y, z into a single array
+    data = np.vstack([x, y, z]).T
+    
+    # Perform 3D KDE using sklearn
+    kde = KernelDensity(bandwidth=bandwidth, kernel='gaussian')
+    kde.fit(data)
+    
+    # Create a 3D grid over which we will evaluate KDE
+    x_min, x_max = x.min(), x.max()
+    y_min, y_max = y.min(), y.max()
+    z_min, z_max = z.min(), z.max()
+    x_lin = np.linspace(x_min, x_max, num_samples)
+    y_lin = np.linspace(y_min, y_max, num_samples)
+    z_lin = np.linspace(z_min, z_max, num_samples)
+    
+    # Generate 3D grid points and evaluate KDE on it
+    x_grid, y_grid, z_grid = np.meshgrid(x_lin, y_lin, z_lin, indexing='ij')
+    grid_coords = np.vstack([x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]).T
+    density = np.exp(kde.score_samples(grid_coords)).reshape(x_grid.shape)
+    
+    # Normalize density for color mapping
+    norm = Normalize(vmin=density.min(), vmax=density.max())
+    colors = cm.get_cmap(cmap)(norm(density.ravel()))
+    
+    # Plot density as points with color indicating density
+    sc=ax.scatter(x_grid.ravel(), y_grid.ravel(), z_grid.ravel(), color=colors, alpha=0.5, s=5)
+    
+    return sc
+
