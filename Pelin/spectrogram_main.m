@@ -6,11 +6,11 @@ addpath('/home/genzellab/Desktop/Pelin-RGS14clusters/functions');
 load('GC_ripple_4clusters_median_wa.mat');
 
 %% What would you like to analyse?
-input1 = GC_cluster2_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
-input2 = GC_cluster3_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
+input1 = GC_cluster2_veh_median_wa; % e.g., GC_cluster2_veh_median_wa
+input2 = GC_cluster3_veh_median_wa; % e.g., GC_cluster3_veh_median_wa
 
 % for normalization, add other cluster
-input3 = GC_cluster1_veh_median_wa; % e.g., GC_cluster3_veh_median_wa
+input3 = GC_cluster1_veh_median_wa; % e.g., GC_cluster1_veh_median_wa
 
 channel   = 'PFC'; % 'HPC' or 'PFC'
 freqrange =  [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]

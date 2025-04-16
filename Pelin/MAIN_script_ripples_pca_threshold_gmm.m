@@ -71,12 +71,13 @@ data=waveforms_veh;
 si=data;
 data2=waveforms_rgs;
 si2=data2;
+fs=1000;
 
 timeasleep=0;
 print_hist=1;
 
-[x,y,z,w,h,q,l,p,si_mixed,th,PCA_features]=delta_specs(si,timeasleep,print_hist); % Vehicle
-[x2,y2,z2,w2,h2,q2,l2,p2,si_mixed2,th2,PCA_features2]=delta_specs(si2,timeasleep,print_hist); % RGS
+[x,y,z,w,h,q,l,p,si_mixed,th,PCA_features]=delta_specs(si,timeasleep,print_hist,fs); % Vehicle
+[x2,y2,z2,w2,h2,q2,l2,p2,si_mixed2,th2,PCA_features2]=delta_specs(si2,timeasleep,print_hist,fs); % RGS
 
 PCA_features_veh_m22=PCA_features(:,2:end);  
 PCA_features_rgs_m22=PCA_features2(:,2:end); 
