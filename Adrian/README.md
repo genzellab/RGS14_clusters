@@ -33,4 +33,6 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - doublets_lags.m: Computes lags between different ripple types. Generates normalized histograms and indicates entropy in bits.
 
 # 2025 (last year updates + revision)
-- redoing_pca_figure.m: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space. 
+
+- [x] `redoing_pca_figure.m`: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space.
+
