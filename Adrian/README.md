@@ -30,4 +30,7 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - multiplet_count_table.m: Generates multiplet table with ripple counts for Lisa. It splits data per Object Space trials. Input: __veh_data_hmm_c3split_with_trials.mat__ generated from prepare_markov_nontrial_splitC3_with_trials.m. Output file: __multipletdata_v3_16022024.xlsx__
 - doublets_types_proportion.m: Simple script. Visualizes percentage of ripple types participating in first, second, and third ripple in doubletes and triplets respectively. 
 - prepare_markov_nontrial_splitC3_with_trials.m: Same as prepare_markov_nontrial_splitC3, but splitting data per trials. Needed for creating table from script above splitting counts per trial.
-- doublets_lags.m: Computes lags between different ripple types. Generates normalized histograms and indicates entropy in bits.  
+- doublets_lags.m: Computes lags between different ripple types. Generates normalized histograms and indicates entropy in bits.
+
+# 2025 (last year updates + revision)
+- redoing_pca_figure.m: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space. 
