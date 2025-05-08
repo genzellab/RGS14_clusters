@@ -35,6 +35,9 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - [x] new_figure_clusters.py`: Displays figure with the 4 clusters in the 3D PCA space.
 ![image](https://github.com/user-attachments/assets/f7707355-9423-40f0-9fb1-5164217abac1)
 
+- [x] new_figure_clusters_part3.py`: Displays subplot figure with the separate clusters and the combined clusters in the 3D PCA space.
+![image](https://github.com/user-attachments/assets/3759c483-b107-419d-a47d-3e9a0e245b3e)
+
 # 2025 (last year updates + revision)
 
 - [x] `redoing_pca_figure.m`: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space.
