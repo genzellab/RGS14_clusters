@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/f7707355-9423-40f0-9fb1-5164217abac1)# HMM analysis
+# HMM analysis
 Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_spiking_net) with some adaptations.
 
 - ~~prepare_markov.m~~: Function created to test the analysis using a single study day. It preprocesses the data of a NREM bout and displays it. Continue the analysis running 'demo2_HMM_Simple.m'. __Discontinued__, rather use the "nontrial" versions. In this case, the "nontrial" tag refers to the original trial-based arrangement from the Mazzulab scripts which don't apply to our data.  
@@ -33,7 +33,7 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - doublets_lags.m: Computes lags between different ripple types. Generates normalized histograms and indicates entropy in bits.
 # 2024 pre-defence scripts
 - [x] new_figure_clusters.py`: Displays figure with the 4 clusters in the 3D PCA space.
-
+![image](https://github.com/user-attachments/assets/f7707355-9423-40f0-9fb1-5164217abac1)
 
 # 2025 (last year updates + revision)
 
