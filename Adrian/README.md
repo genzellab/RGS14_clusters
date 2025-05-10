@@ -41,6 +41,9 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - [x] new_figure_clusters_part3_rgs.py`: Displays subplot figure with the separate clusters and the combined clusters in the 3D PCA space for the RGS ripples
 ![image](https://github.com/user-attachments/assets/c7b52de1-61e4-4f54-acbf-026f7ad74453)
 
+- [x] new_figure_clusters_part3_continuation.py`: Displays subplot figure with the separate clusters and the combined clusters in the 3D PCA space.
+![image](https://github.com/user-attachments/assets/b4f55f34-dd5d-4e7d-a11f-1db8183cc615)
+
 - [x] 3D_and_2D_clusterplots.py`: Displays separate cluster blobs in 3D space, plus their corresponding 2D projections. 
 ![image](https://github.com/user-attachments/assets/71843f5d-b897-4748-aa97-8ca847b25b0d)
 
