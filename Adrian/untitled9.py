@@ -18,7 +18,7 @@ import mpld3
 
 mpld3.save_html(fig, '3d_plot.html')
 #%%
-
+import matplotlib.pyplot as plt
 fig = plt.figure(figsize=(15, 15))
 # Create 4 subplots: 2x2 grid
 ax_3d_1 = fig.add_subplot(221, projection='3d')  # First subplot (3D)
