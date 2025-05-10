@@ -47,6 +47,8 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 - [x] 3D_and_2D_clusterplots.py`: Displays separate cluster blobs in 3D space, plus their corresponding 2D projections. 
 ![image](https://github.com/user-attachments/assets/71843f5d-b897-4748-aa97-8ca847b25b0d)
 
+- [x] new_figure_clusters_part3_noclusters.py`: Displays combined clusters in the 3D PCA space. This script randomly selects 16,000 unique points from cluster 1.
+
 
 # 2025 (last year updates + revision)
 
