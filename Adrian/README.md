@@ -52,5 +52,5 @@ Dependencies: [Mazzulab scripts](https://github.com/mazzulab/contamineuro_2019_s
 
 # 2025 (last year updates + revision)
 
-- [x] `redoing_pca_figure.m`: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space. NOTE: Rather use MAIN_script_ripples_pca_threshold_gmm.m
+- [x] `redoing_pca_figure.m`: Re-creates the original matlab figure with the 4 clusters in the 3D PCA space. NOTE: Rather use MAIN_script_ripples_pca_threshold_gmm.m from Pelin
 
