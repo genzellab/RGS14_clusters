@@ -34,7 +34,7 @@ y_axis4 = data['y_axis4']
 z_axis4 = data['z_axis4']
 
 os.chdir('/home/adrian/Documents/GitHub/UMAP/utils/')
-#%%
+
 
 # Remove NaNs for all clusters
 #Cluster 3
@@ -53,7 +53,7 @@ z_axis3 = z_axis3[~np.isnan(z_axis3)]
 x_axis4 = x_axis4[~np.isnan(x_axis4)]
 y_axis4 = y_axis4[~np.isnan(y_axis4)]
 z_axis4 = z_axis4[~np.isnan(z_axis4)]
-
+#%%
 # Set up figure and 3D axis
 #fig = plt.figure(figsize=(10, 8))
 #ax = fig.add_subplot(111, projection='3d')
@@ -102,6 +102,17 @@ def plot_cluster_noKDE(x, y, z, ax):
         #scatter = ax.scatter(x, y, z, c=feature, alpha=alpha, s=s, color=color)
     return sc
 
+def find_peak_density_coords(x, y, z):
+    # Perform 2D KDE on x and y
+    kde = gaussian_kde(np.vstack([x, y]))
+    density = kde(np.vstack([x, y]))
+    
+    # Get the index of the point with the highest density
+    max_idx = np.argmax(density)
+    
+    # Return the corresponding (x, y, z) coordinates
+    return x[max_idx], y[max_idx], z[max_idx]
+
 # Set a seed for reproducibility
 # np.random.seed(42)  # You can choose any integer value
 
@@ -127,7 +138,7 @@ def plot_cluster_noKDE(x, y, z, ax):
 sc1 = plot_cluster(x_axis1, y_axis1, z_axis1, cmaps[2], ax) # Cluster 3
 sc2 = plot_cluster(x_axis2, y_axis2, z_axis2, cmaps[1], ax)
 sc3 = plot_cluster(x_axis3, y_axis3, z_axis3, cmaps[0], ax) # Cluster 2
-sc4 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4,  ax) #Cluster 4
+#sc4 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4,  ax) #Cluster 4
 
 #sc4 = plot_cluster(x_axis4, y_axis4, z_axis4, cmaps[3], ax) # Cluster 1
 #sc4 = plot_cluster(x_downsampled, y_downsampled, z_downsampled, cmaps[2], ax)
@@ -193,6 +204,27 @@ ax.set_zticks([0, 10])           # For the Z-axis
 
 plt.draw()  # Update the plot with new ticks
 
+# Find and print max density coordinates for each cluster
+peak1 = find_peak_density_coords(x_axis1, y_axis1, z_axis1)
+peak2 = find_peak_density_coords(x_axis2, y_axis2, z_axis2)
+peak3 = find_peak_density_coords(x_axis3, y_axis3, z_axis3)
+
+print("Cluster 1 peak density at:", peak1)
+print("Cluster 2 peak density at:", peak2)
+print("Cluster 3 peak density at:", peak3)
+
+from scipy.io import savemat
+
+# Organize the peak coordinates into a dictionary
+peak_coords = {
+    'peak1': np.array(peak1),  # Cluster 1
+    'peak2': np.array(peak2),  # Cluster 2
+    'peak3': np.array(peak3),  # Cluster 3
+}
+
+# Save to a .mat file
+savemat('cluster_peak_coords.mat', peak_coords)
+
 #%%
 # Combine clusters 1,2 and 3. Amount of ripples per cluster is similar.
 x = np.concatenate((x_axis1, x_axis3,x_axis2), axis=0)
@@ -203,7 +235,7 @@ cmaps = ['inferno'] #, 'plasma', 'inferno',plasma cividis
 
 # Plot clusters on the third subplot (ax3)
 sc9 = plot_cluster(x, y, z, cmaps[0], ax2)  # Cluster 3
-sc10 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4, ax2)  # Cluster 4
+#sc10 = plot_cluster_noKDE(x_axis4, y_axis4, z_axis4, ax2)  # Cluster 4
 
 # Customize ax3 plot
 ax2.set_title('VEH (All ripples)',fontsize=12)  # Title for ax3
@@ -268,22 +300,23 @@ print(f"Z-axis tick label font size: {z_tick_fontsize}")
 
 #%%
 
-# Generate and save frames
-for angle in range(0, 360, 10):  # Rotate every 2 degrees
-    ax.view_init(azim=angle,elev=20)
-    plt.savefig(f"frame_{angle}.png", dpi=300)  # Save each frame
+# # Generate and save frames
+# for angle in range(0, 360, 5):  # Rotate every 2 degrees
+#     ax.view_init(azim=angle,elev=30)
+#     ax2.view_init(azim=angle,elev=30)
+#     plt.savefig(f"frame_{angle}.png", dpi=300)  # Save each frame
 
-plt.close()
-#%%
+# plt.close()
+# #%%
 
-from moviepy.editor import ImageSequenceClip
+# from moviepy.editor import ImageSequenceClip
 
-# List of all the frame files
-frames = [f"frame_{angle}.png" for angle in range(0, 360, 10)]
+# # List of all the frame files
+# frames = [f"frame_{angle}.png" for angle in range(0, 360, 10)]
 
-# Create a video clip
-clip = ImageSequenceClip(frames, fps=5)
+# # Create a video clip
+# clip = ImageSequenceClip(frames, fps=5)
 
-# Save the video
-clip.write_videofile("rotating_3D_plot.mp4", codec="mpeg4")
+# # Save the video
+# clip.write_videofile("rotating_3D_plot.mp4", codec="mpeg4")
 
