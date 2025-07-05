@@ -89,7 +89,7 @@ freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Iteration of GC trials Veh 
     iter = 30;
     m = 400;
-   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
        grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
 
     for i = 1:iter
@@ -120,7 +120,6 @@ freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     end
     
     granger_tf= grangerspctrm_concat;   
-    
     
     %% input2
     p = input2;
@@ -270,12 +269,10 @@ freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
         Data = ft_preprocessing(cfg,Data); 
         
         [granger_tf] = createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
-        grangerspctrm_concat(:,:,:,:,i) = granger_tf.grangerspctrm;
-        
+        grangerspctrm_concat(:,:,:,:,i) = granger_tf.grangerspctrm;  
     end
     
     granger_tf= grangerspctrm_concat;   
-    
     
     %%  input2
     p = input2;
@@ -284,8 +281,8 @@ freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
     %% Iteration of GC trials 
     iter = 30;
     m = 400;
-   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
-   grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
+    %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
     for i = 1:iter
         i
         randorder = randperm(length(q));
@@ -311,7 +308,6 @@ freqrange = [100:2:300]; % [0:0.5:20] or [20:1:100] or [100:2:300]
         
         [granger_tf2] = createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
         grangerspctrm_concat2(:,:,:,:,i) = granger_tf2.grangerspctrm;
-        
     end
     
     granger_tf2= grangerspctrm_concat2;

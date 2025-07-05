@@ -6,7 +6,6 @@
 % Fits GMM model; Finds clusters per treatment; 
 % Creates new files per cluster and per treatment.
 
-
 clc
 clear
 format compact
@@ -82,7 +81,6 @@ print_hist=1;
 PCA_features_veh_m22=PCA_features(:,2:end);  
 PCA_features_rgs_m22=PCA_features2(:,2:end); 
 
-
 %%
 %%%%%%%%%%%%%%%%%%%%%
 %%% COMPUTING PCA %%%
@@ -98,7 +96,6 @@ Z_veh=X*coeff;
 Z_rgs=Y*coeff;
 %Z_rgs=Y*coeff2;
 
-
 %%
 %%%%%%%%%%%%%%%%%%%%%%%
 %%% 3D DENSITY MAPS %%%
@@ -107,7 +104,6 @@ Z_rgs=Y*coeff;
 % histcn NEEDED!
 % https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/23897/versions/4/previews/histcn.m/index.html
 addpath(genpath('/Users/pelinozsezer/Documents/MATLAB/Toolboxes'));
-
 
 % Select the data you want to analyze! (Veh or RGS)
         
@@ -237,8 +233,6 @@ addpath(genpath('/Users/pelinozsezer/Documents/MATLAB/Toolboxes'));
     
     end
 
-
-
 %%
 %%%%%%%%%%%%%%%%%%%%
 %%% THRESHOLDING %%%
@@ -252,7 +246,6 @@ addpath(genpath('/Users/pelinozsezer/Documents/MATLAB/Toolboxes'));
     Y=Y(thresholded_idx,:);
     Z=Z(thresholded_idx,:);
   
-
 %     f = figure();
 %     scatter3(X, Y,Z, markersize, scatter_COL, marker);
 %     xlabel('PCA1');
@@ -268,7 +261,6 @@ addpath(genpath('/Users/pelinozsezer/Documents/MATLAB/Toolboxes'));
 % 
 %     saveas(gcf,'thresholded_pca.jpg'); 
 %     saveas(gcf,'thresholded_pca.pdf'); 
-
 
 %% Find the best model!
 AIC = zeros(1,10);
@@ -299,7 +291,6 @@ xlabel('number of clusters')
 rng('default') % For reproducibility
 eva = evalclusters(data,'kmeans','CalinskiHarabasz','KList',1:6);
 eva.OptimalK
-
 
 %%
 %%%%%%%%%%%%%%%
@@ -379,9 +370,6 @@ z_axis4 =actual(:,3);
     height4    = rect_y_points4(2)-rect_y_points4(1);
     depth4     = rect_z_points4(2)-rect_z_points4(1);
 
-
-
-
 %% Plot
 scatter3(x_axis1,y_axis1,z_axis1,'filled','MarkerFaceColor',[209/255 233/255 196/255],'MarkerEdgeColor',[209/255 233/255 196/255])
 hold on
@@ -403,7 +391,6 @@ zlim([-10 40])
 saveas(gcf,'4clusters.jpg')
 saveas(gcf,'4clusters.pdf')
 saveas(gcf,'4clusters.fig')
-
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -447,7 +434,6 @@ saveas(gcf,'4clusters.fig')
         cluster_4_idx=[cluster_4_idx; idx_no] ;
     end
 
-    
    %% Veh
    cluster1_idx_veh=cluster_1_idx;
    cluster2_idx_veh=cluster_2_idx;
@@ -461,7 +447,6 @@ saveas(gcf,'4clusters.fig')
    cluster3_idx_rgs=cluster_3_idx;
    cluster4_idx_rgs=cluster_4_idx;
    %thresholded_idx_rgs=thresholded_idx;
-
 
    %% Veh
    waveforms_cluster1_raw_veh=GC_raw_veh;
@@ -490,7 +475,6 @@ saveas(gcf,'4clusters.fig')
    waveforms_cluster4_bp_veh=GC_bandpassed_veh;
    waveforms_cluster4_bp_veh= waveforms_cluster4_bp_veh(cluster4_idx_veh,:);
 
-
    %% RGS
    waveforms_cluster1_raw_rgs=GC_raw_rgs;
    waveforms_cluster1_raw_rgs= waveforms_cluster1_raw_rgs(cluster1_idx_rgs,:);
@@ -518,9 +502,6 @@ saveas(gcf,'4clusters.fig')
    waveforms_cluster4_bp_rgs=GC_bandpassed_rgs;
    waveforms_cluster4_bp_rgs= waveforms_cluster4_bp_rgs(cluster4_idx_rgs,:);
 
-
-
-
    %%
 
    clearvars -except waveforms_cluster1_raw_veh waveforms_cluster2_raw_veh waveforms_cluster3_raw_veh waveforms_cluster4_raw_veh...
@@ -528,9 +509,5 @@ saveas(gcf,'4clusters.fig')
     waveforms_cluster1_raw_rgs waveforms_cluster2_raw_rgs waveforms_cluster3_raw_rgs waveforms_cluster4_raw_rgs...
     waveforms_cluster1_bp_rgs waveforms_cluster2_bp_rgs waveforms_cluster3_bp_rgs waveforms_cluster4_bp_rgs
 
-   save('waveforms_ripple_clusters_all.mat','-v7.3')
-
-
-
-
+   save('waveforms_ripple_clusters_all.mat','-v7.3');
 
