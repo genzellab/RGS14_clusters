@@ -57,12 +57,12 @@ for i = 1:length(clustersDiff)
                 if ~isempty(img)
                     CData = get(img, 'CData');
 
-                    % Create XLSX file name from .fig file name
+                    % create XLSX file name from .fig file name
                     baseName = erase(figFile.name, '.fig');
                     sanitizedName = matlab.lang.makeValidName(baseName);
                     xlsxName = fullfile(currentFolder, strcat(baseName, '.xlsx'));
 
-                    % Write CData to XLSX
+                    % write CData to XLSX
                     writematrix(CData, xlsxName);
                     fprintf('Saved %s to %s\n', baseName, xlsxName);
                 end
@@ -75,10 +75,4 @@ for i = 1:length(clustersDiff)
     end
 end
 
-path = '/Users/pelinozsezer/Desktop/GenzelLab/copy_of_paper'; % your path
 cd(path);
-
-
-
-
-

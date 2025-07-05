@@ -1,4 +1,5 @@
 %% SPECTROGRAM
+
 clc
 clear
 addpath('/home/genzellab/Desktop/Pelin/fieldtrip');
@@ -56,7 +57,6 @@ saveas(gcf,'cluster3_100300_2s_veh.jpg');
 saveas(gcf,'cluster3_100300_2s_veh.pdf');
 close all
 
-
 % Contrast
 cfg              = [];
 cfg.channel      = channel;
@@ -69,9 +69,9 @@ xlabel('Time (s)')
 ylabel('Frequency (Hz)')
 xlim([-1 1])
 
-saveas(gcf,'contrast_vehicle_c23_100300_2s.fig'); 
+saveas(gcf,'contrast_vehicle_c23_100300_2s.fig'); % change accordingly
 saveas(gcf,'contrast_vehicle_c23_100300_2s.jpg'); % change accordingly
-saveas(gcf,'contrast_vehicle_c23_100300_2s.pdf');
+saveas(gcf,'contrast_vehicle_c23_100300_2s.pdf'); % change accordingly
 close all
 
 %% STATS
@@ -93,8 +93,8 @@ xlabel('Time (s)')
 ylabel('Frequency (Hz)')
 xlim([-1 1])
 
-saveas(gcf,'stats_contrast_vehicle_c23_100300_2s.fig');
+saveas(gcf,'stats_contrast_vehicle_c23_100300_2s.fig'); % change accordingly
 saveas(gcf,'stats_contrast_vehicle_c23_100300_2s.jpg'); % change accordingly
-saveas(gcf,'stats_contrast_vehicle_c23_100300_2s.pdf');
+saveas(gcf,'stats_contrast_vehicle_c23_100300_2s.pdf'); % change accordingly
 close all
 

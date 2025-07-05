@@ -80,8 +80,6 @@ for i=1:size(x,1)
 end
 ylim([-300 300])
 
-
-
 GC_cluster1_veh_median_wa       =GC_cluster1_veh;
 GC_Bp_cluster1_veh_median_wa    =GC_Bp_cluster1_veh;
 GC_time_cluster1_veh_median_wa  =GC_time_cluster1_veh;
@@ -90,9 +88,7 @@ GC_cluster1_veh_median_wa(i,:)       =[];
 GC_Bp_cluster1_veh_median_wa(i,:)    =[];
 GC_time_cluster1_veh_median_wa(i,:)  =[];
 
-
 %save GC_cluster1_veh_median_wa.mat
-
 
 %% RGS
 
@@ -129,7 +125,6 @@ Data = ft_preprocessing(cfg,Data);
 cfg.bpfilter = 'yes';
 cfg.bpfreq = [100 300];
 Data = ft_preprocessing(cfg,Data);
-
 
 % Detect artifact (overlay all ripples)
 x=[];

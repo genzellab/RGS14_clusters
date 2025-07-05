@@ -20,7 +20,6 @@ function [granger,granger2,add]=granger_automation(input1,input2,input3,freqrang
     
     [granger,freq]=createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
     
-    
     %%  input2
     fn = 1000;
     leng = length(input2);
@@ -36,7 +35,6 @@ function [granger,granger2,add]=granger_automation(input1,input2,input3,freqrang
     Data = ft_preprocessing(cfg,Data); 
     
     %
- 
     
     [granger2,freq2]=createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
     

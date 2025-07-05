@@ -8,17 +8,15 @@ addpath('/home/genzellab/Desktop/Pelin/rgs_granger_cluster_veh-rgs/functions');
 load('waveforms_cluster3_veh.mat'); % change
 load('waveforms_cluster3_rgs.mat'); % change
 
-
 %% What would you like to analyse?
 input_veh = waveforms_cluster3_raw_veh(:,1);  % change
 input_rgs = waveforms_cluster3_raw_rgs(:,1); % change
 clearvars -except -regexp input
 
-% select 
-% how many ripples
+% select how many ripples
 nRipple=2000;
 
-%input_veh
+% input_veh
 R = (cellfun(@(equis1) max(abs(hilbert(equis1(2,3001-50:3001+50)))),input_veh));
 
 [~,r_nl]=sort(abs(R-median(R)),'ascend');
@@ -26,14 +24,13 @@ R=R(r_nl);
 input_veh=input_veh(r_nl);
 input_veh = input_veh(1:nRipple);
 
-%input_rgs
+% input_rgs
 R = (cellfun(@(equis1) max(abs(hilbert(equis1(2,3001-50:3001+50)))),input_rgs));
 
 [~,r_nl]=sort(abs(R-median(R)),'ascend');
 R=R(r_nl);
 input_rgs=input_rgs(r_nl);
 input_rgs = input_rgs(1:nRipple);
-
 
 % freqrange
 freqrange =  [100:2:300] ; % [0:0.5:20] or [20:1:100] or [100:2:300]
@@ -50,8 +47,7 @@ clearvars -except -regexp input freqrange
     j=2;
     
     tf_p=squeeze(granger.grangerspctrm(i,j,:,:));
-    tf_p2=squeeze(granger2.grangerspctrm(i,j,:,:)); 
-   
+    tf_p2=squeeze(granger2.grangerspctrm(i,j,:,:));
     
     %% Normalize the colorbar
     zmin= min([min(tf_p, [],'all'), min(tf_p2, [],'all')],[],'all');
@@ -124,12 +120,12 @@ clearvars -except -regexp input freqrange
     
     %% input_veh
     p = input_veh;
-   % q = input1_Bp;
+    % q = input1_Bp;
     
     %% Iteration of GC trials Veh 
     iter = 30;
-    m = 400;
-   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+     m = 400;
+    %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
        grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
 
     for i = 1:iter
@@ -161,15 +157,14 @@ clearvars -except -regexp input freqrange
     
     granger_tf= grangerspctrm_concat;   
     
-    
     %% input_rgs
     p = input_rgs;
-   % q = input2_Bp;
+    % q = input2_Bp;
     
     % Iteration of GC trials 
     iter = 30;
     m = 400;
-   % grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    % grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
     grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter); 
 
     for i = 1:iter
@@ -337,8 +332,7 @@ clearvars -except -regexp input freqrange
         Data = ft_preprocessing(cfg,Data); 
         
         [granger_tf] = createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
-        grangerspctrm_concat(:,:,:,:,i) = granger_tf.grangerspctrm;
-        
+        grangerspctrm_concat(:,:,:,:,i) = granger_tf.grangerspctrm;   
     end
     
     granger_tf= grangerspctrm_concat;   
@@ -351,8 +345,8 @@ clearvars -except -regexp input freqrange
     %% Iteration of GC trials 
     iter = 30;
     m = 400;
-   %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
-   grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
+    %grangerspctrm_concat = zeros(2,2,length(freqrange)-1,length([-1.1:0.01:1.1]),iter); % if you start from 0 Hz
+    grangerspctrm_concat = zeros(2,2,length(freqrange),length([-1.1:0.01:1.1]),iter);
     for i = 1:iter
         i
         randorder = randperm(length(p));
@@ -377,8 +371,7 @@ clearvars -except -regexp input freqrange
         Data = ft_preprocessing(cfg,Data); 
         
         [granger_tf2] = createauto_timefreq(Data,freqrange,[-1.1:0.01:1.1]);
-        grangerspctrm_concat2(:,:,:,:,i) = granger_tf2.grangerspctrm;
-        
+        grangerspctrm_concat2(:,:,:,:,i) = granger_tf2.grangerspctrm;  
     end
     
     granger_tf2= grangerspctrm_concat2;

@@ -57,7 +57,3 @@ for c = clusters
 
     end
 end
-
-
-
-

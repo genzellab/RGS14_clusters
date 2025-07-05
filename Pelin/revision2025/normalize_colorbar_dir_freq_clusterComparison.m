@@ -36,8 +36,6 @@ fprintf('\nGLOBAL COLORBAR LIMITS for %s / %s\n', direction, freq_range);
 fprintf('Minimum: %.4f\n', global_min);
 fprintf('Maximum: %.4f\n', global_max);
 
-
-
 %% adjust colorbar in the actual plots now and also save as PDF 
 
 for ci = 1:length(clusters)
