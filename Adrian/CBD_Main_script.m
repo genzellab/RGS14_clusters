@@ -1,0 +1,159 @@
+%% Load RGS data for reference
+cd     '/media/adrian/6aa1794c-0320-4096-a7df-00ab0ba946dc/wetransfer_pelin-folder-from-malaga-second-attempt_2025-04-09_0406/Pelin'
+load('clusters_corrected_struct.mat')
+data=clusters.data;
+labels=clusters.labels;
+centroids=clusters.centroids;
+cluster_data_corrected=labels;
+%% Load CBD data
+
+cd /home/adrian/Documents/GitHub/RGS14_clusters/Adrian
+load coeff.mat
+cd /home/adrian/Downloads
+load updated_pca_features_cbd.mat
+
+%% Prepare PCA-projected data
+veh_X = zscore(PCA_features_veh_m22);
+cbd_X = zscore(PCA_features_cbd_m22);
+
+Z_veh = veh_X * coeff;
+Z_cbd = cbd_X * coeff;
+%%
+veh_data = Z_veh(:, 1:3); % Use PCA1, PCA2, PCA3
+
+
+
+%% ========== VEHICLE BLOCK ==========
+disp('Processing VEH...')
+veh_data = Z_veh(:, 1:3); % Use PCA1, PCA2, PCA3
+rng(1);
+k = 4;
+options = statset('MaxIter',1000);
+veh_gmm = fitgmdist(veh_data, k, 'CovarianceType','diagonal', 'SharedCovariance', false, 'Options', options);
+veh_clusters = cluster(veh_gmm, veh_data);
+
+% Initialize cell arrays
+veh_x = cell(1,k); veh_y = cell(1,k); veh_z = cell(1,k);
+veh_idx = cell(1,k);
+veh_width = zeros(1,k); veh_height = zeros(1,k); veh_depth = zeros(1,k);
+
+for c = 1:k
+    veh_idx{c} = veh_clusters == c;
+    cluster_data = veh_data(veh_idx{c}, :);
+
+    veh_x{c} = cluster_data(:,1);
+    veh_y{c} = cluster_data(:,2);
+    veh_z{c} = cluster_data(:,3);
+
+    veh_width(c) = 2*std(veh_x{c});
+    veh_height(c) = 2*std(veh_y{c});
+    veh_depth(c) = 2*std(veh_z{c});
+end
+
+% Optional: reassign cluster IDs (this is just an example permutation)
+%perm = [1 2 3 4]; 
+%perm = [3 1 4 2]; 
+perm = [3 4 1 2]; 
+veh_x = veh_x(perm); veh_y = veh_y(perm); veh_z = veh_z(perm); veh_idx = veh_idx(perm);
+
+%% Plot
+figure()
+colors = [209 233 196; 44 210 245; 10 75 141; 0 120 0]/255;
+for i = 1:4
+    scatter3(veh_x{i}, veh_y{i}, veh_z{i}, 'filled', ...
+        'MarkerFaceColor', colors(i,:), 'MarkerEdgeColor', colors(i,:));
+    hold on
+end
+title('VEH treatment (CBD dataset) - 4 clusters')
+xlabel('PCA1'), ylabel('PCA2'), zlabel('PCA3')
+legend('cluster 1','cluster 2','cluster 3','cluster 4')
+%xlim([-10 60]); ylim([-30 20]); zlim([-10 40]);
+xlim([-10 20]); ylim([-30 20]); zlim([-10 20]);
+
+%% Display counts
+veh_total = sum(cellfun(@numel, veh_x));
+for i = 1:k
+    count = numel(veh_x{i});
+    fprintf('VEH Cluster %d count: %d (%.2f%%)\n', i, count, (count/veh_total)*100);
+end
+
+%% ========== CBD BLOCK ==========
+disp('Processing CBD...')
+cbd_data = Z_cbd(:, 1:3);
+rng(1);
+cbd_gmm = fitgmdist(cbd_data, k, 'CovarianceType','diagonal', 'SharedCovariance', false, 'Options', options);
+cbd_clusters = cluster(cbd_gmm, cbd_data);
+
+% Initialize cell arrays
+cbd_x = cell(1,k); cbd_y = cell(1,k); cbd_z = cell(1,k);
+cbd_idx = cell(1,k);
+cbd_width = zeros(1,k); cbd_height = zeros(1,k); cbd_depth = zeros(1,k);
+
+for c = 1:k
+    cbd_idx{c} = cbd_clusters == c;
+    cluster_data = cbd_data(cbd_idx{c}, :);
+
+    cbd_x{c} = cluster_data(:,1);
+    cbd_y{c} = cluster_data(:,2);
+    cbd_z{c} = cluster_data(:,3);
+
+    cbd_width(c) = 2*std(cbd_x{c});
+    cbd_height(c) = 2*std(cbd_y{c});
+    cbd_depth(c) = 2*std(cbd_z{c});
+end
+
+% Optional: reassign cluster IDs (example permutation)
+%perm = [1:4];
+perm = [3 4 1 2];
+%perm = [3 4 1 2];
+
+cbd_x = cbd_x(perm); cbd_y = cbd_y(perm); cbd_z = cbd_z(perm); cbd_idx = cbd_idx(perm);
+
+%% Plot
+figure()
+for i = 1:4
+    scatter3(cbd_x{i}, cbd_y{i}, cbd_z{i}, 'filled', ...
+        'MarkerFaceColor', colors(i,:), 'MarkerEdgeColor', colors(i,:));
+    hold on
+end
+title('CBD treatment (CBD dataset) - 4 clusters')
+xlabel('PCA1'), ylabel('PCA2'), zlabel('PCA3')
+legend('cluster 1','cluster 2','cluster 3','cluster 4')
+% xlim([-10 60]); ylim([-30 20]); zlim([-10 40]);
+xlim([-10 20]); ylim([-30 20]); zlim([-10 20]);
+
+%% Display counts
+cbd_total = sum(cellfun(@numel, cbd_x));
+for i = 1:k
+    count = numel(cbd_x{i});
+    fprintf('CBD Cluster %d count: %d (%.2f%%)\n', i, count, (count/cbd_total)*100);
+end
+%%
+veh_C1_features = PCA_features_veh_m22(veh_idx{1}, :);
+veh_C2_features = PCA_features_veh_m22(veh_idx{2}, :);
+veh_C3_features = PCA_features_veh_m22(veh_idx{3}, :);
+veh_C4_features = PCA_features_veh_m22(veh_idx{4}, :);
+
+veh_C1_features(:,4) = veh_C1_features(:,4) * 1000;
+veh_C2_features(:,4) = veh_C2_features(:,4) * 1000;
+veh_C3_features(:,4) = veh_C3_features(:,4) * 1000;
+veh_C4_features(:,4) = veh_C4_features(:,4) * 1000;
+%%
+% Extract column 1 from each VEH cluster
+C1 = veh_C1_features(:,2);
+C2 = veh_C2_features(:,2);
+C3 = veh_C3_features(:,2);
+
+% Put into a 1x3 cell array
+Y = {C1, C2, C3};
+
+% Plot violin
+figure;
+violin2(Y, 'xlabel', {'C1', 'C2', 'C3'}, ...
+           'facecolor', [0.8 0.3 0.3; 0.3 0.8 0.3; 0.3 0.3 0.8], ...
+           'edgecolor', 'k', ...
+           'mc', 'k', ...
+           'medc', 'r');
+
+ylabel('Average Frequency');
+title('VEH-CBD ripples: Average Frequency');
