@@ -5,7 +5,7 @@
 % ----------------------------
 % Config
 % ----------------------------
-condition_order = {'SWR_Del','Del_SWR','SWR_Del_CS','Del_SWR_CS'};
+condition_order = {'SWR_Del','Del_SWR','SWR_Del_CS','Del_SWR_CS', 'SWR_CS'};
 
 % ----------------------------
 % Find rat folders (numeric)
@@ -84,6 +84,10 @@ for r = 1:numel(rat_folders)
             end
         end
 
+        if strcmp(condition,'unknown')
+            warning('Condition not recognized for file: %s', fname);
+        end
+
         % Extract Study Day (SD# if present; else -1)
         sd_num = -1;
         tok = regexp(fname, 'SD(\d+)', 'tokens', 'once');
@@ -117,9 +121,11 @@ else
         {'RatID','StudyDay','Condition','Count_C1','Count_C2','Count_C3_SHORT','Count_C3_LONG'});
 
     % Enforce condition ordering (unknown goes last if present)
-    present = intersect(condition_order, unique(T.Condition, 'stable'), 'stable');
-    other   = setdiff(unique(T.Condition, 'stable'), present, 'stable');
-    T.Condition = categorical(T.Condition, [present, other], 'Ordinal', true);
+    u = unique(T.Condition, 'stable');                     % cell array of strings
+    present = intersect(condition_order, u, 'stable');     % keep desired order
+    other   = setdiff(u, present, 'stable');               % any extras go last
+    cats = [present(:).', other(:).'];                     % force to row vectors
+    T.Condition = categorical(T.Condition, cats, 'Ordinal', true);
 
     % Sort by Condition (in desired order), then RatID, then StudyDay
     T = sortrows(T, {'Condition','RatID','StudyDay'});
